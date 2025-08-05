@@ -77,15 +77,23 @@ declare type CheckoutTransactionParams = {
   credits: number;
   amount: number;
   buyerId: string;
+  mpesaPhone?: string;
 };
 
 declare type CreateTransactionParams = {
-  stripeId: string;
+  stripeId?: string;
   amount: number;
   credits: number;
   plan: string;
   buyerId: string;
-  createdAt: Date;
+  paymentMethod?: string;
+  transactionId?: string;
+  status?: string;
+  checkoutRequestID?: string;
+  createdAt?: Date;
+  mpesaDetails?: {
+          phoneNumber?: string,
+        },
 };
 
 declare type TransformationTypeKey =

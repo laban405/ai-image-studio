@@ -16,6 +16,10 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
+  phone: {
+    type: String,
+    unique: true,
+  },
   photo: {
     type: String,
     required: true,
@@ -32,7 +36,7 @@ const UserSchema = new Schema({
   },
   creditBalance: {
     type: Number,
-    default: 10,
+    default: 100,
   },
 });
 

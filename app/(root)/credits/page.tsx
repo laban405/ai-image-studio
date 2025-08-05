@@ -7,6 +7,12 @@ import { Button } from "@/components/ui/button";
 import { plans } from "@/constants";
 import { getUserById } from "@/lib/actions/user.actions";
 import Checkout from "@/components/shared/Checkout";
+// import dynamic from "next/dynamic";
+
+// const TransformationCostTable = dynamic(
+//   () => import("@/components/shared/TransformationCostTable"),
+//   { ssr: true } // ⬅ ensures it runs on the server
+// );
 
 const Credits = async () => {
   const { userId } = auth();
@@ -31,8 +37,8 @@ const Credits = async () => {
                 <p className="p-20-semibold mt-2 text-purple-500">
                   {plan.name}
                 </p>
-                <p className="h1-semibold text-dark-600">${plan.price}</p>
-                <p className="p-16-regular">{plan.credits} Credits</p>
+                <p className="h1-semibold text-dark-600">KSh {plan.price}</p>
+                {/* <p className="p-16-regular">{plan.credits} Credits</p> */}
               </div>
 
               {/* Inclusions */}

@@ -47,10 +47,10 @@ export const plans = [
     name: "Free",
     icon: "/assets/icons/free-plan.svg",
     price: 0,
-    credits: 20,
+    credits: 100,
     inclusions: [
       {
-        label: "20 Free Credits",
+        label: "100 Free Credits",
         isIncluded: true,
       },
       {
@@ -69,13 +69,13 @@ export const plans = [
   },
   {
     _id: 2,
-    name: "Pro Package",
+    name: "Mini Package",
     icon: "/assets/icons/free-plan.svg",
-    price: 40,
-    credits: 120,
+    price: 50,
+    credits: 50,
     inclusions: [
       {
-        label: "120 Credits",
+        label: "50 Credits",
         isIncluded: true,
       },
       {
@@ -94,13 +94,13 @@ export const plans = [
   },
   {
     _id: 3,
-    name: "Premium Package",
+    name: "Basic Package",
     icon: "/assets/icons/free-plan.svg",
-    price: 199,
-    credits: 2000,
+    price: 100,
+    credits: 100,
     inclusions: [
       {
-        label: "2000 Credits",
+        label: "100 Credits",
         isIncluded: true,
       },
       {
@@ -117,7 +117,148 @@ export const plans = [
       },
     ],
   },
+  {
+    _id: 4,
+    name: "Starter Package",
+    icon: "/assets/icons/free-plan.svg",
+    price: 250,
+    credits: 250,
+    inclusions: [
+      {
+        label: "250 Credits",
+        isIncluded: true,
+      },
+      {
+        label: "Full Access to Services",
+        isIncluded: true,
+      },
+      {
+        label: "Priority Customer Support",
+        isIncluded: true,
+      },
+      {
+        label: "Priority Updates",
+        isIncluded: true,
+      },
+    ],
+  },
+  {
+    _id: 5,
+    name: "Pro Package",
+    icon: "/assets/icons/free-plan.svg",
+    price: 500,
+    credits: 500,
+    inclusions: [
+      {
+        label: "500 Credits",
+        isIncluded: true,
+      },
+      {
+        label: "Full Access to Services",
+        isIncluded: true,
+      },
+      {
+        label: "Priority Customer Support",
+        isIncluded: true,
+      },
+      {
+        label: "Priority Updates",
+        isIncluded: true,
+      },
+    ],
+  },
+  {
+    _id: 6,
+    name: "Business Package",
+    icon: "/assets/icons/free-plan.svg",
+    price: 1000,
+    credits: 1000,
+    inclusions: [
+      {
+        label: "1000 Credits",
+        isIncluded: true,
+      },
+      {
+        label: "Full Access to Services",
+        isIncluded: true,
+      },
+      {
+        label: "Priority Customer Support",
+        isIncluded: true,
+      },
+      {
+        label: "Priority Updates",
+        isIncluded: true,
+      },
+    ],
+  },
+  {
+    _id:7,
+    name: "Bulk Saver Package",
+    icon: "/assets/icons/free-plan.svg",
+    price: 2000,
+    credits: 2200,
+    inclusions: [
+      {
+        label: "2200 Credits",
+        isIncluded: true,
+      },
+      {
+        label: "Full Access to Services",
+        isIncluded: true,
+      },
+      {
+        label: "Priority Customer Support",
+        isIncluded: true,
+      },
+      {
+        label: "Priority Updates",
+        isIncluded: true,
+      },
+      {
+        label: "+10% bonus credits for loyal users",
+        isIncluded: true,
+      },
+    ],
+  },
+  {
+    _id: 8,
+    name: "Agency Package",
+    icon: "/assets/icons/free-plan.svg",
+    price: 5000,
+    credits: 5750,
+    inclusions: [
+      {
+        label: "5750 Credits",
+        isIncluded: true,
+      },
+      {
+        label: "Full Access to Services",
+        isIncluded: true,
+      },
+      {
+        label: "Priority Customer Support",
+        isIncluded: true,
+      },
+      {
+        label: "Priority Updates",
+        isIncluded: true,
+      },
+      {
+        label: "+15% bonus credits for power users",
+        isIncluded: true,
+      },
+    ],
+  },
 ];
+
+export const transformationCosts:Record<string, number> = {
+  restore: 4,
+  removeBackground: 5,
+  fill: 15,
+  remove: 10,
+  recolor: 15,
+};
 
 export const transformationTypes = {
   restore: {
@@ -126,6 +267,7 @@ export const transformationTypes = {
     subTitle: "Refine images by removing noise and imperfections",
     config: { restore: true },
     icon: "image.svg",
+    cost:`${transformationCosts.restore} credits`
   },
   removeBackground: {
     type: "removeBackground",
@@ -133,6 +275,8 @@ export const transformationTypes = {
     subTitle: "Removes the background of the image using AI",
     config: { removeBackground: true },
     icon: "camera.svg",
+    cost:`${transformationCosts.removeBackground} credits`
+
   },
   fill: {
     type: "fill",
@@ -140,6 +284,8 @@ export const transformationTypes = {
     subTitle: "Enhance an image's dimensions using AI outpainting",
     config: { fillBackground: true },
     icon: "stars.svg",
+    cost:`${transformationCosts.fill} credits`
+
   },
   remove: {
     type: "remove",
@@ -149,6 +295,8 @@ export const transformationTypes = {
       remove: { prompt: "", removeShadow: true, multiple: true },
     },
     icon: "scan.svg",
+    cost:`${transformationCosts.remove} credits`
+
   },
   recolor: {
     type: "recolor",
@@ -158,8 +306,12 @@ export const transformationTypes = {
       recolor: { prompt: "", to: "", multiple: true },
     },
     icon: "filter.svg",
+    cost:`${transformationCosts.recolor} credits`
+
   },
 };
+
+
 
 export const aspectRatioOptions = {
   "1:1": {
@@ -190,4 +342,4 @@ export const defaultValues = {
   publicId: "",
 };
 
-export const creditFee = -1;
+// export const creditFee = -1;
