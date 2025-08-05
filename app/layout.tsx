@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const IBMPlex = IBM_Plex_Sans({
   subsets: ["latin"],
@@ -22,12 +23,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider appearance={{
-      variables: { colorPrimary: '#624cf5' }
-    }}>
-      <html lang="en">
+    <ClerkProvider
+      appearance={{
+        variables: { colorPrimary: "#624cf5" },
+      }}
+    >
+      <html lang="en" suppressHydrationWarning>
         <body className={cn("font-IBMPlex antialiased", IBMPlex.variable)}>
-          {children}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
