@@ -10,7 +10,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <Sidebar />
       <MobileNav />
 
-      <div className="root-container">
+      <div className="root-container bg-gray-100 dark:bg-black">
         <header className='p-4 flex justify-end'> <ThemeToggle/></header>
         <div className="wrapper">
           {children}

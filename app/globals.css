@@ -254,7 +254,7 @@
 
   /* Home Page */
   .home {
-    @apply sm:flex-center hidden h-72 flex-col gap-4 rounded-[20px] border bg-no-repeat p-10 shadow-inner;
+    @apply sm:flex-center hidden h-72 flex-col gap-4 rounded-[20px] shadow-sm p-10;
   }
 
   .home-heading {
@@ -346,7 +346,7 @@
 
   /* Sidebar Component */
   .sidebar {
-    @apply hidden h-screen w-72  p-5 shadow-md  lg:flex;
+    @apply hidden h-screen w-64  p-5 shadow-md  lg:flex;
   }
 
   .sidebar-logo {
@@ -362,11 +362,11 @@
   }
 
   .sidebar-nav_element {
-    @apply flex-center p-16-semibold w-full whitespace-nowrap rounded-full bg-cover  transition-all  hover:shadow-inner;
+    @apply flex-center  w-full whitespace-nowrap rounded-full bg-cover  transition-all  hover:shadow-inner;
   }
 
   .sidebar-link {
-    @apply p-16-semibold flex size-full gap-4 p-4;
+    @apply flex gap-4 p-4 w-full;
   }
 
   /* TransformationForm Component */

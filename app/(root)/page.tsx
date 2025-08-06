@@ -12,7 +12,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
 
   return (
     <>
-      <section className="home">
+      <section className="home bg-white shadow-accent">
         <h1 className="home-heading">
           Unleash Your Creative Vision with Image Studio
         </h1>

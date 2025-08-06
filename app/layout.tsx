@@ -1,20 +1,23 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans } from "next/font/google";
+import { Ubuntu } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const IBMPlex = IBM_Plex_Sans({
+const ubuntu = Ubuntu({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-ibm-plex",
+  weight: ["300", "400", "500",  "700"],
+  variable: "--font-ubuntu",
 });
 
 export const metadata: Metadata = {
-  title: "imagestudio",
-  description: "AI-powered image generator",
+  title: "Mikrosell Image Studio",
+  description: "AI-powered image generator and editor",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -25,11 +28,11 @@ export default function RootLayout({
   return (
     <ClerkProvider
       appearance={{
-        variables: { colorPrimary: "#624cf5" },
+        variables: { colorPrimary: "#B17E64" },
       }}
     >
-      <html lang="en" suppressHydrationWarning>
-        <body className={cn("font-IBMPlex antialiased", IBMPlex.variable)}>
+      <html lang="en" suppressHydrationWarning className={ubuntu.className}>
+        <body >
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
