@@ -20,18 +20,18 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
 
       <section className="mt-5 flex flex-wrap gap-4">
         <div className="p-14-medium md:p-16-medium flex gap-2">
-          <p className="text-dark-600">Transformation:</p>
-          <p className=" capitalize text-purple-400">
+          <p className="">Transformation:</p>
+          <p className=" capitalize">
             {image.transformationType}
           </p>
         </div>
 
         {image.prompt && (
           <>
-            <p className="hidden text-dark-400/50 md:block">&#x25CF;</p>
+            <p className="hidden md:block">&#x25CF;</p>
             <div className="p-14-medium md:p-16-medium flex gap-2 ">
-              <p className="text-dark-600">Prompt:</p>
-              <p className=" capitalize text-purple-400">{image.prompt}</p>
+              <p className="">Prompt:</p>
+              <p className=" capitalize ">{image.prompt}</p>
             </div>
           </>
         )}

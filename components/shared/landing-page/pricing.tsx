@@ -1,36 +1,29 @@
-import { SignedIn, auth } from "@clerk/nextjs";
+// "use client";
 import Image from "next/image";
-import { redirect } from "next/navigation";
-
-import Header from "@/components/shared/Header";
 import { Button } from "@/components/ui/button";
 import { plans } from "@/constants";
+import Checkout from "../Checkout";
+import { auth, SignedIn } from "@clerk/nextjs";
 import { getUserById } from "@/lib/actions/user.actions";
-import Checkout from "@/components/shared/Checkout";
-// import dynamic from "next/dynamic";
 
-// const TransformationCostTable = dynamic(
-//   () => import("@/components/shared/TransformationCostTable"),
-//   { ssr: true } // ⬅ ensures it runs on the server
-// );
 
-const Credits = async () => {
+
+const Pricing = async() => {
   const { userId } = auth();
-
-  if (!userId) redirect("/sign-in");
-
-  const user = await getUserById(userId);
+  const user = await getUserById(userId??"");
 
   return (
-    <>
-      <Header
-        title="Buy Credits"
-        subtitle="Choose a credit package that suits your needs!"
-      />
-
-      <section>
-        <ul className="credits-list">
-          {plans.map((plan) => (
+    <div
+      id="pricing"
+      className="flex flex-col items-center justify-center py-12 xs:py-20 px-6"
+    >
+      <h1 className="text-3xl xs:text-4xl md:text-5xl font-bold text-center tracking-tight">
+        Pricing
+      </h1>
+       <p className="mt-3 xs:text-lg text-center text-muted-foreground">Start Free. Upgrade As You Grow.</p>
+     
+      <div className="mt-12 max-w-screen-lg mx-auto grid grid-cols-1 lg:grid-cols-3 items-center gap-8">
+         {plans.slice(0,6).map((plan) => (
             <li key={plan.name} className="credits-item">
               <div className="flex-center flex-col gap-3">
                 <Image src={plan.icon} alt="check" width={50} height={50} />
@@ -77,10 +70,9 @@ const Credits = async () => {
               )}
             </li>
           ))}
-        </ul>
-      </section>
-    </>
+      </div>
+    </div>
   );
 };
 
-export default Credits;
+export default Pricing;

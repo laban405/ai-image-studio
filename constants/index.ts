@@ -198,6 +198,7 @@ export const plans = [
     icon: "/assets/icons/free-plan.svg",
     price: 2000,
     credits: 2200,
+    isPopular:true,
     inclusions: [
       {
         label: "2200 Credits",

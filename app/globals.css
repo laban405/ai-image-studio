@@ -104,6 +104,9 @@
   * {
     @apply border-border;
   }
+    html {
+    @apply scroll-smooth scroll-pt-12;
+  }
   body {
     @apply bg-background text-foreground;
   }
@@ -267,7 +270,7 @@
   }
 
   .credits-item {
-    @apply w-full rounded-[16px] border-2   p-8 shadow-xl  lg:max-w-none;
+    @apply w-full rounded-[16px] border   p-8  lg:max-w-none;
   }
 
   .credits-btn {

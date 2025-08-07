@@ -1,47 +1,29 @@
-import { Collection } from "@/components/shared/Collection";
-import { navLinks } from "@/constants";
-import { getAllImages } from "@/lib/actions/image.actions";
-import Image from "next/image";
-import Link from "next/link";
+import CTABanner from "@/components/shared/landing-page/cta-banner";
+import FAQ from "@/components/shared/landing-page/faq";
+import Features from "@/components/shared/landing-page/features";
+import Footer from "@/components/shared/landing-page/footer";
+import Hero from "@/components/shared/landing-page/hero";
+import { Navbar } from "@/components/navbar";
+import Pricing from "@/components/shared/landing-page/pricing";
+import Testimonials from "@/components/shared/landing-page/testimonials";
+import HowItWorks from "@/components/shared/landing-page/hot-it-works";
+import UseCases from "@/components/shared/landing-page/usecases";
 
-const Home = async ({ searchParams }: SearchParamProps) => {
-  const page = Number(searchParams?.page) || 1;
-  const searchQuery = (searchParams?.query as string) || "";
-
-  const images = await getAllImages({ page, searchQuery });
-
+export default function Home() {
   return (
     <>
-      <section className="home bg-white shadow-accent">
-        <h1 className="home-heading">
-          Unleash Your Creative Vision with Image Studio
-        </h1>
-        <ul className="flex-center w-full gap-20">
-          {navLinks.slice(1, 5).map((link) => (
-            <Link
-              key={link.route}
-              href={link.route}
-              className="flex-center flex-col gap-2"
-            >
-              <li className="flex-center w-fit rounded-full bg-white p-4">
-                <Image src={link.icon} alt="image" width={24} height={24} />
-              </li>
-              <p className="p-14-medium text-center text-white">{link.label}</p>
-            </Link>
-          ))}
-        </ul>
-      </section>
-
-      <section className="sm:mt-12">
-        <Collection
-          hasSearch={true}
-          images={images?.data}
-          totalPages={images?.totalPage}
-          page={page}
-        />
-      </section>
+      <Navbar />
+      <main className="pt-16 xs:pt-20 sm:pt-24">
+        <Hero />
+        <Features />
+        <HowItWorks/>
+        <UseCases/>
+        <Pricing />
+        <FAQ />
+        <Testimonials />
+        <CTABanner />
+        <Footer />
+      </main>
     </>
   );
-};
-
-export default Home;
+}
