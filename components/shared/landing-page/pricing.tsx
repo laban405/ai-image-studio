@@ -10,7 +10,7 @@ import { getUserById } from "@/lib/actions/user.actions";
 
 const Pricing = async() => {
   const { userId } = auth();
-  const user = await getUserById(userId??"");
+  const user =userId ? await getUserById(userId): null;
 
   return (
     <div
@@ -60,12 +60,12 @@ const Pricing = async() => {
                 </Button>
               ) : (
                 <SignedIn>
-                  <Checkout
+                  {user && <Checkout
                     plan={plan.name}
                     amount={plan.price}
                     credits={plan.credits}
                     buyerId={user._id}
-                  />
+                  />}
                 </SignedIn>
               )}
             </li>
