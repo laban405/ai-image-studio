@@ -27,7 +27,7 @@ const Navbar = async () => {
             Sign In
           </Button><Button className="hidden xs:inline-flex">Get Started</Button>
           </SignedOut>
-         <ThemeToggle />
+         {/* <ThemeToggle /> */}
 
           {/* Mobile Menu */}
           <div className="md:hidden">
