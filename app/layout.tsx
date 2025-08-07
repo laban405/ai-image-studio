@@ -35,11 +35,9 @@ export default function RootLayout({
         <body >
           <ThemeProvider
             attribute="class"
-            // defaultTheme="system"
+            defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-            defaultTheme="light"
-             forcedTheme="light" 
           >
             {children}
           </ThemeProvider>

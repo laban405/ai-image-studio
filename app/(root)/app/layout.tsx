@@ -11,7 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <MobileNav />
       <div className="root-container bg-white dark:bg-black h-full max-h-screen">
         <header className='p-4 flex justify-end h-[72px] '> 
-          {/* <ThemeToggle/> */}
+          <ThemeToggle/>
           </header>
         <div className="wrapper bg-gray-100 dark:bg-black h-[calc(100vh-72px)] overflow-y-scroll">
           {children}
