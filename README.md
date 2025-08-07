@@ -200,7 +200,7 @@ module.exports = {
           600: "#4318FF",
         },
         dark: {
-          400: "#7986AC",
+          400: "#B17E64",
           500: "#606C80",
           600: "#2B3674",
           700: "#384262",
@@ -1161,12 +1161,12 @@ const shimmer = (w: number, h: number) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <linearGradient id="g">
-      <stop stop-color="#7986AC" offset="20%" />
+      <stop stop-color="#B17E64" offset="20%" />
       <stop stop-color="#68769e" offset="50%" />
-      <stop stop-color="#7986AC" offset="70%" />
+      <stop stop-color="#B17E64" offset="70%" />
     </linearGradient>
   </defs>
-  <rect width="${w}" height="${h}" fill="#7986AC" />
+  <rect width="${w}" height="${h}" fill="#B17E64" />
   <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
   <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
 </svg>`;

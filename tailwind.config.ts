@@ -17,8 +17,8 @@ module.exports = {
       },
     },
     extend: {
-      
       colors: {
+        lemon:'#FFFFCA',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -32,7 +32,7 @@ module.exports = {
           600: "#4318FF",
         },
         dark: {
-          400: "#7986AC",
+          400: "#B17E64",
           500: "#606C80",
           600: "#2B3674",
           700: "#384262",
@@ -67,7 +67,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        ubuntu: ['var(--font-ubuntu)'],
+        ubuntu: ["var(--font-ubuntu)"],
       },
       backgroundImage: {
         "purple-gradient": "url('/assets/images/gradient-bg.svg')",
@@ -87,7 +87,7 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-         marquee: {
+        marquee: {
           from: {
             transform: "translateX(0)",
           },
@@ -107,7 +107,7 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-         marquee: "marquee var(--duration) linear infinite",
+        marquee: "marquee var(--duration) linear infinite",
         "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
       },
     },

@@ -206,7 +206,7 @@ const TransformationForm = ({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         {creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal />}
         <div className="flex gap-3">
-          <div className="grow-[2] bg-white dark:bg-background rounded-lg overflow-hidden p-4">
+          <div className="grow-[2] bg-white dark:bg-background rounded-lg overflow-hidden p-4 shadow">
             <div className="media-uploader-field">
               <CustomField
                 control={form.control}

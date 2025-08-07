@@ -14,15 +14,15 @@ export function cn(...inputs: ClassValue[]) {
 export const handleError = (error: unknown) => {
   if (error instanceof Error) {
     // This is a native JavaScript error (e.g., TypeError, RangeError)
-    console.error('error instanceof Error',error.message);
+    console.error("error instanceof Error", error.message);
     throw new Error(`Error: ${error.message}`);
   } else if (typeof error === "string") {
     // This is a string error message
-    console.error('typeof error === "string"',error);
+    console.error('typeof error === "string"', error);
     throw new Error(`Error: ${error}`);
   } else {
     // This is an unknown type of error
-    console.error('This is an unknown type of error',error);
+    console.error("This is an unknown type of error", error);
     throw new Error(`Unknown error: ${JSON.stringify(error)}`);
   }
 };
@@ -32,12 +32,12 @@ const shimmer = (w: number, h: number) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <linearGradient id="g">
-      <stop stop-color="#7986AC" offset="20%" />
+      <stop stop-color="#B17E64" offset="20%" />
       <stop stop-color="#68769e" offset="50%" />
-      <stop stop-color="#7986AC" offset="70%" />
+      <stop stop-color="#B17E64" offset="70%" />
     </linearGradient>
   </defs>
-  <rect width="${w}" height="${h}" fill="#7986AC" />
+  <rect width="${w}" height="${h}" fill="#B17E64" />
   <rect id="r" width="${w}" height="${h}" fill="url(#g)" />
   <animate xlink:href="#r" attributeName="x" from="-${w}" to="${w}" dur="1s" repeatCount="indefinite"  />
 </svg>`;
@@ -132,7 +132,7 @@ export const download = (url: string, filename: string) => {
 
 // DEEP MERGE OBJECTS
 export const deepMergeObjects = (obj1: any, obj2: any) => {
-  if(obj2 === null || obj2 === undefined) {
+  if (obj2 === null || obj2 === undefined) {
     return obj1;
   }
 
@@ -156,9 +156,7 @@ export const deepMergeObjects = (obj1: any, obj2: any) => {
   return output;
 };
 
-
-
-function parseDate(val:any) {
+function parseDate(val: any) {
   return val < 10 ? "0" + val : val;
 }
 

@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -35,7 +36,7 @@ const Sidebar = () => {
                   <li
                     key={link.route}
                     className={`sidebar-nav_element group w-full ${
-                      isActive ? "bg-secondary text-white" : ""
+                      isActive ? "bg-secondary dark:bg-accent text-white" : ""
                     }`}
                   >
                     <Link className="sidebar-link text-sm" href={link.route}>
@@ -46,7 +47,11 @@ const Sidebar = () => {
                         height={18}
                         className={`${isActive && "brightness-200"}`}
                       />
+                      <span  className={cn({
+                        'text-secondary brightness-200':isActive
+                      })}>
                       {link.label}
+                      </span>
                     </Link>
                   </li>
                 );
@@ -61,18 +66,22 @@ const Sidebar = () => {
                   <li
                     key={link.route}
                     className={`sidebar-nav_element group ${
-                      isActive ? "bg-accent text-secondary" : ""
+                      isActive ? "bg-accent dark:bg-accent text-secondary" : ""
                     }`}
                   >
                     <Link className="sidebar-link flex justify-start text-sm" href={link.route}>
                       <Image
                         src={link.icon}
-                        alt="logo"
+                        alt="Mikrosell link icon"
                         width={18}
                         height={18}
                         className={`${isActive && "brightness-200"}`}
                       />
+                        <span  className={cn({
+                        'text-secondary brightness-200':isActive
+                      })}>
                       {link.label}
+                      </span>
                     </Link>
                   </li>
                 );
