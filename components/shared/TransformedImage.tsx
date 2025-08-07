@@ -21,7 +21,7 @@ const TransformedImage = ({ image, type, title, transformationConfig, isTransfor
   return (
     <div className="flex flex-col gap-4">
       <div className="flex-between">
-        <h3 className="h3-bold text-dark-600">
+        <h3 className="h3-bold">
           Transformed
         </h3>
 

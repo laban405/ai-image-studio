@@ -121,14 +121,14 @@
 }
 
 .root-container {
-  @apply mt-0 flex-1 overflow-auto pb-8 lg:mt-0 lg:max-h-screen lg:pb-10
+  @apply mt-0 flex-1 overflow-auto lg:mt-0 lg:max-h-screen
 }
 
 /* ========================================== TAILWIND STYLES */
 @layer utilities {
   /* ===== UTILITIES */
   .wrapper {
-    @apply max-w-5xl mx-auto px-5 md:px-10 w-full  p-16-regular;
+    @apply max-w-full p-5 md:p-10 w-full  p-16-regular rounded-lg;
   }
 
   .gradient-text {
@@ -152,12 +152,12 @@
 
   /* 36 */
   .h2-bold {
-    @apply text-[30px] font-bold md:text-[36px] leading-[110%];
+    @apply text-[18px] font-medium md:text-[20px] leading-[110%];
   }
 
   /* 30 */
   .h3-bold {
-    @apply font-bold text-[30px] leading-[140%];
+    @apply font-semibold text-[16px] leading-[140%];
   }
 
   /* 24 */
@@ -378,7 +378,7 @@
   }
 
   .media-uploader-field {
-    @apply grid h-fit min-h-[200px] grid-cols-1 gap-5 py-4 md:grid-cols-2;
+    @apply grid h-fit min-h-[200px] grid-cols-1 gap-5 md:grid-cols-2;
   }
 
   /* TransformedImage Component */

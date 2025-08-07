@@ -42,7 +42,7 @@ const Footer = () => {
         <div className="py-12 flex flex-col sm:flex-row items-start justify-between gap-x-8 gap-y-10 px-6 xl:px-0">
           <div>
           
-            <Logo height={20} width={36}/>
+            <Logo height={20} width={32}/>
 
             <ul className="mt-6 flex items-center gap-4 flex-wrap">
               {footerLinks.map(({ title, href }) => (

@@ -394,7 +394,7 @@ module.exports = {
 
   /* 30 */
   .h3-bold {
-    @apply font-bold text-[30px] leading-[140%];
+    @apply font-bold text-[30px] leading-[140%] ml-2;
   }
 
   /* 24 */
