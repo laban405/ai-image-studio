@@ -223,7 +223,7 @@
   }
 
   .search-field {
-    @apply border-0 bg-transparent  w-full  h-[50px] p-16-medium focus-visible:ring-offset-0 p-3 focus-visible:ring-transparent !important;
+    @apply border-0 bg-transparent  w-full  h-[36px] text-sm focus-visible:ring-offset-0 p-3 focus-visible:ring-transparent !important;
   }
 
   .submit-button {
@@ -347,7 +347,7 @@
 
   /* Search Component */
   .search {
-    @apply flex w-full rounded-[16px] border-2  px-4 shadow-sm  md:max-w-96;
+    @apply flex w-full rounded border  px-2 md:max-w-96;
   }
 
   /* Sidebar Component */
