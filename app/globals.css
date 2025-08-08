@@ -69,9 +69,9 @@
   --accent-foreground: 28.8889 52.9412% 90.0000%;
   --destructive: 20.2597 33.0472% 54.3137%;
   --destructive-foreground: 0 0% 3.9216%;
-  --border: 24.5070 45.2229% 69.2157%;
+  --border: 25 35% 17%;
 
-   --input: 24.5070 45.2229% 69.2157%;
+   --input: 25 36% 25%;
 
   --ring: 28.8889 52.9412% 90.0000%;
   --chart-1: 214.8837 62.3188% 13.5294%;
@@ -293,9 +293,9 @@
   }
 
   /* Transformation Details */
-  .transformation-grid {
-    @apply grid h-fit min-h-[200px] grid-cols-1 gap-5 py-8 md:grid-cols-2;
-  }
+  /* .transformation-grid {
+    @apply grid h-fit min-h-[200px] grid-cols-1 gap-5 py-8;
+  } */
 
   .transformation-original_image {
     @apply h-fit min-h-72 w-full rounded-[10px] border border-dashed  object-cover p-2;
@@ -385,7 +385,7 @@
 
   /* TransformedImage Component */
   .download-btn {
-    @apply p-14-medium mt-2 flex items-center gap-2 px-2;
+    @apply p-14-medium flex items-center gap-2 px-2;
   }
 
   .transformed-image {

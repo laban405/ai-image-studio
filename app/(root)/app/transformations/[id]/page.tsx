@@ -21,9 +21,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
       <section className="mt-5 flex flex-wrap gap-4">
         <div className="p-14-medium md:p-16-medium flex gap-2">
           <p className="">Transformation:</p>
-          <p className=" capitalize">
-            {image.transformationType}
-          </p>
+          <p className=" capitalize">{image.transformationType}</p>
         </div>
 
         {image.prompt && (
@@ -38,62 +36,75 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
 
         {image.color && (
           <>
-            <p className="hidden text-dark-400/50 md:block">&#x25CF;</p>
+            <p className="hidden  md:block">&#x25CF;</p>
             <div className="p-14-medium md:p-16-medium flex gap-2">
-              <p className="text-dark-600">Color:</p>
-              <p className=" capitalize text-purple-400">{image.color}</p>
+              <p className="">Color:</p>
+              <p className=" capitalize ">{image.color}</p>
             </div>
           </>
         )}
 
         {image.aspectRatio && (
           <>
-            <p className="hidden text-dark-400/50 md:block">&#x25CF;</p>
+            <p className="hidden md:block">&#x25CF;</p>
             <div className="p-14-medium md:p-16-medium flex gap-2">
-              <p className="text-dark-600">Aspect Ratio:</p>
-              <p className=" capitalize text-purple-400">{image.aspectRatio}</p>
+              <p className="">Aspect Ratio:</p>
+              <p className=" capitalize ">{image.aspectRatio}</p>
             </div>
           </>
         )}
       </section>
 
-      <section className="mt-10 border-t border-dark-400/15">
-        <div className="transformation-grid">
+      <section className="mt-10 ">
+      
           {/* MEDIA UPLOADER */}
-          <div className="flex flex-col gap-4">
-            <h3 className="h3-bold text-dark-600">Original</h3>
+          <div className="flex gap-3">
+            <div className="grow-[2] bg-white dark:bg-background rounded-lg overflow-hidden p-4 shadow flex gap-8">
+              <div className="flex flex-col gap-4 grow-[1]">
+                <h3 className="h3-bold h-[30px]">Original</h3>
+                <Image
+                  width={getImageSize(image.transformationType, image, "width")}
+                  height={getImageSize(
+                    image.transformationType,
+                    image,
+                    "height"
+                  )}
+                  src={image.secureURL}
+                  alt="image"
+                  className="transformation-original_image"
+                />
+              </div>
 
-            <Image
-              width={getImageSize(image.transformationType, image, "width")}
-              height={getImageSize(image.transformationType, image, "height")}
-              src={image.secureURL}
-              alt="image"
-              className="transformation-original_image"
-            />
+              {/* TRANSFORMED IMAGE */}
+              <div className="grow-[1]">
+              <TransformedImage
+                image={image}
+                type={image.transformationType}
+                title={image.title}
+                isTransforming={false}
+                transformationConfig={image.config}
+                hasDownload={true}
+              /></div>
+            </div>
+            <div className="grow-[1] bg-white dark:bg-background rounded-lg overflow-hidden p-4 shadow">
+              {userId === image.author.clerkId && (
+                <div className="mt-4 space-y-4">
+                  <Button
+                    asChild
+                    type="button"
+                    className="submit-button capitalize"
+                  >
+                    <Link href={`/app/transformations/${image._id}/update`}>
+                      Update Image
+                    </Link>
+                  </Button>
+
+                  <DeleteConfirmation imageId={image._id} />
+                </div>
+              )}
+            </div>{" "}
           </div>
-
-          {/* TRANSFORMED IMAGE */}
-          <TransformedImage
-            image={image}
-            type={image.transformationType}
-            title={image.title}
-            isTransforming={false}
-            transformationConfig={image.config}
-            hasDownload={true}
-          />
-        </div>
-
-        {userId === image.author.clerkId && (
-          <div className="mt-4 space-y-4">
-            <Button asChild type="button" className="submit-button capitalize">
-              <Link href={`/transformations/${image._id}/update`}>
-                Update Image
-              </Link>
-            </Button>
-
-            <DeleteConfirmation imageId={image._id} />
-          </div>
-        )}
+       
       </section>
     </>
   );

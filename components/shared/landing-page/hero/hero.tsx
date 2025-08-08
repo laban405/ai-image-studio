@@ -4,10 +4,11 @@ import { ArrowUpRight, CirclePlay } from "lucide-react";
 import React from "react";
 import Link from "next/link";
 import { SignedOut, SignedIn } from "@clerk/nextjs";
+import HeroBanner from "./hero-banner";
 
 const Hero = () => {
   return (
-    <div className="min-h-[calc(100vh-6rem)] flex flex-col items-center py-20 px-6">
+    <div className="min-h-[calc(100vh-6rem)] flex flex-col md:flex-row items-center py-20 px-6">
       <div className="md:mt-6 flex items-center justify-center">
         <div className="text-center max-w-2xl">
           <Badge className="bg-primary rounded-full py-1 border-none">
@@ -21,17 +22,17 @@ const Hero = () => {
             powerful AI tools — no Photoshop skills needed.
           </p>
           <div className="mt-12 flex flex-col sm:flex-row items-center sm:justify-center gap-4">
-   <Button
-  size="lg"
-  className="w-full sm:w-auto rounded-full text-base"
-  asChild
->
-  <Link href="/app" className="flex items-center gap-2">
-    <SignedOut>Get Started </SignedOut>
-              <SignedIn>Start Editing </SignedIn>
-    <ArrowUpRight className="!h-5 !w-5" />
-  </Link>
-</Button>
+            <Button
+              size="lg"
+              className="w-full sm:w-auto rounded-full text-base"
+              asChild
+            >
+              <Link href="/app" className="flex items-center gap-2">
+                <SignedOut>Get Started </SignedOut>
+                <SignedIn>Start Editing </SignedIn>
+                <ArrowUpRight className="!h-5 !w-5" />
+              </Link>
+            </Button>
             {/* <Button
               variant="outline"
               size="lg"
@@ -42,7 +43,9 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      {/* <LogoCloud className="mt-24 max-w-3xl mx-auto" /> */}
+       <div className="mt-8 lg:mt-0 w-full max-w-md lg:max-w-lg">
+            <HeroBanner />
+          </div>
     </div>
   );
 };

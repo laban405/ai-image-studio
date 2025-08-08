@@ -19,24 +19,16 @@ module.exports = {
     extend: {
       colors: {
         lemon:'#FFFFCA',
+        msecondary:'#B17E64',
+        mprimary:'#0D1F38',
+        maccent:'#F3E5D8',
+        mmuted:'#8D99AE',
+        mdarksecondary:'#3C2A1D',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        purple: {
-          100: "#F4F7FE",
-          200: "#BCB6FF",
-          400: "#868CFF",
-          500: "#7857FF",
-          600: "#4318FF",
-        },
-        dark: {
-          400: "#B17E64",
-          500: "#606C80",
-          600: "#2B3674",
-          700: "#384262",
-        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

@@ -2,7 +2,7 @@ import CTABanner from "@/components/shared/landing-page/cta-banner";
 import FAQ from "@/components/shared/landing-page/faq";
 import Features from "@/components/shared/landing-page/features";
 import Footer from "@/components/shared/landing-page/footer";
-import Hero from "@/components/shared/landing-page/hero";
+import Hero from "@/components/shared/landing-page/hero/hero";
 import { Navbar } from "@/components/navbar";
 import Pricing from "@/components/shared/landing-page/pricing";
 import Testimonials from "@/components/shared/landing-page/testimonials";
