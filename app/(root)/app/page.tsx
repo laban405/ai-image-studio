@@ -1,5 +1,6 @@
 import { Collection } from "@/components/shared/Collection";
-import { navLinks } from "@/constants";
+import { navLinks } from "@/constants/nav-links";
+
 import { getAllImages } from "@/lib/actions/image.actions";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,18 +13,23 @@ const Home = async ({ searchParams }: SearchParamProps) => {
 
   return (
     <>
-      <section className="home bg-secondary shadow-accent">
-        <ul className="flex-center w-full gap-20">
+      <section className="home">
+        <div className="w-full gap-20">
+          <h3 className="mb-6 text-lg font-medium">Tools</h3>
+          <div className="grow-[1]"></div>
+        </div>
+        <ul className="w-full gap-20 flex">
           {navLinks.slice(1, 6).map((link) => (
+            
             <Link
               key={link.route}
               href={link.route}
-              className="flex-center flex-col gap-2"
+              className="flex-center flex-col gap-2   p-4 "
             >
-              <li className="flex-center w-fit rounded-full bg-lemon p-4">
-                <Image src={link.icon} alt="image" width={24} height={24} className=""/>
+              <li className="flex-center rounded p-4 bg-accent border w-32 h-18">
+                <link.icon className="text-secondary" />
               </li>
-              <p className="p-14-medium text-center text-lemon">{link.label}</p>
+              <p className="text-center text-sm ">{link.label}</p>
             </Link>
           ))}
         </ul>

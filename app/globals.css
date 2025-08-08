@@ -50,6 +50,7 @@
   --shadow-2xl: 0px 2px 4px 0px hsl(0 0% 0% / 0.20);
   --tracking-normal: 0rem;
   --spacing: 0.25rem;
+  --msecondary-rgb: 177, 126, 100;
 }
 
 .dark {
@@ -110,7 +111,7 @@
     @apply scroll-smooth scroll-pt-12;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-gray-100 dark:bg-background text-foreground dark:text-lemon dark:border-accent border-gray-200;
   }
 }
 
@@ -154,7 +155,7 @@
 
   /* 36 */
   .h2-bold {
-    @apply text-[18px] font-medium md:text-[20px] leading-[110%];
+    @apply leading-[110%];
   }
 
   /* 30 */
@@ -259,7 +260,7 @@
 
   /* Home Page */
   .home {
-    @apply sm:flex-center hidden h-72 flex-col gap-4 rounded-lg shadow-sm p-10;
+    @apply flex-col gap-4 rounded-lg;
   }
 
   .home-heading {
@@ -285,11 +286,11 @@
   }
 
   .profile-balance {
-    @apply w-full rounded-[16px] border-2  p-5 shadow-lg  md:px-6 md:py-8;
+    @apply w-full rounded p-5 bg-accent md:px-6 md:py-8;
   }
 
   .profile-image-manipulation {
-    @apply w-full rounded-[16px] border-2 p-5 shadow-lg  md:px-6 md:py-8;
+    @apply w-full rounded p-5 bg-accent  md:px-6 md:py-8;
   }
 
   /* Transformation Details */
@@ -307,7 +308,7 @@
   }
 
   .collection-list {
-    @apply grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3;
+    @apply grid grid-cols-2 gap-6 sm:grid-cols-4 xl:grid-cols-5;
   }
 
   .collection-empty {
@@ -319,7 +320,7 @@
   }
 
   .collection-card {
-    @apply flex flex-1 cursor-pointer flex-col gap-5 rounded-[16px]  p-4 shadow-sm  transition-all ;
+    @apply flex flex-1 cursor-pointer flex-col gap-5 rounded border transition-all ;
   }
 
   /* MediaUploader Component */
@@ -351,11 +352,11 @@
 
   /* Sidebar Component */
   .sidebar {
-    @apply hidden h-screen w-64  p-5 shadow-md  lg:flex;
+    @apply hidden h-screen w-64  p-5  lg:flex border border-r-gray-200 dark:border-r-accent;
   }
 
   .sidebar-logo {
-    @apply flex items-center gap-2 md:py-2;
+    @apply flex md:py-2;
   }
 
   .sidebar-nav {
@@ -367,11 +368,11 @@
   }
 
   .sidebar-nav_element {
-    @apply flex-center  w-full whitespace-nowrap rounded-full bg-cover  transition-all  hover:shadow-inner;
+    @apply flex-center  w-full whitespace-nowrap  transition-all rounded;
   }
 
   .sidebar-link {
-    @apply flex gap-4 p-4 w-full;
+    @apply flex gap-4 p-2 pl-3 w-full items-center;
   }
 
   /* TransformationForm Component */

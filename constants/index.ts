@@ -1,45 +1,4 @@
-export const navLinks = [
-  {
-    label: "Dashboard",
-    route: "/app",
-    icon: "/assets/icons/home.svg",
-  },
-  {
-    label: "Image Restore",
-    route: "/app/transformations/add/restore",
-    icon: "/assets/icons/image.svg",
-  },
-  {
-    label: "Generative Fill",
-    route: "/app/transformations/add/fill",
-    icon: "/assets/icons/stars.svg",
-  },
-  {
-    label: "Object Remove",
-    route: "/app/transformations/add/remove",
-    icon: "/assets/icons/scan.svg",
-  },
-  {
-    label: "Object Recolor",
-    route: "/app/transformations/add/recolor",
-    icon: "/assets/icons/filter.svg",
-  },
-  {
-    label: "Background Remove",
-    route: "/app/transformations/add/removeBackground",
-    icon: "/assets/icons/camera.svg",
-  },
-  {
-    label: "Profile",
-    route: "/app/profile",
-    icon: "/assets/icons/profile.svg",
-  },
-  {
-    label: "Buy Credits",
-    route: "/app/credits",
-    icon: "/assets/icons/bag.svg",
-  },
-];
+
 
 export const plans = [
   {

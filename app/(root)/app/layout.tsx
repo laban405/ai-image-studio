@@ -9,11 +9,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       
       <Sidebar />
       <MobileNav />
-      <div className="root-container bg-white dark:bg-background h-full max-h-screen">
+      <div className="root-container bg-gray-50 dark:bg-background h-full max-h-screen">
         <header className='p-4 flex justify-end h-[72px] '> 
           <ThemeToggle/>
           </header>
-        <div className="wrapper bg-gray-100 dark:bg-black h-[calc(100vh-72px)] overflow-y-scroll">
+        <div className="wrapper bg-gray-50 dark:bg-background h-[calc(100vh-72px)] overflow-y-scroll">
           {children}
         </div>
       </div>

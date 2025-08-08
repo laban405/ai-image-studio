@@ -1,12 +1,14 @@
 "use client";
 
-import { navLinks } from "@/constants";
+
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import { Plus } from "lucide-react";
+import { navLinks } from "@/constants/nav-links";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -14,8 +16,8 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <div className="flex size-full flex-col gap-4">
-        <div className="flex gap-4 mx-auto">
-          <Link href="/" className="sidebar-logo">
+        <div className="flex gap-4">
+          <Link href="/" className="sidebar-logo ml-3">
             <Image
               src="/assets/images/logo-text.png"
               alt="logo"
@@ -28,36 +30,64 @@ const Sidebar = () => {
 
         <nav className="sidebar-nav">
           <SignedIn>
-            <ul className="sidebar-nav_elements">
-              {navLinks.slice(0, 6).map((link) => {
-                const isActive = link.route === pathname;
+            <div>
+              <ul className="sidebar-nav_elements my-6 mb-8">
+                {navLinks.slice(0, 1).map((link) => {
+                  const isActive = link.route === pathname;
 
-                return (
-                  <li
-                    key={link.route}
-                    className={`sidebar-nav_element group w-full ${
-                      isActive ? "bg-secondary dark:bg-accent text-white" : ""
-                    }`}
-                  >
-                    <Link className="sidebar-link text-sm" href={link.route}>
-                      <Image
-                        src={link.icon}
-                        alt="logo"
-                        width={18}
-                        height={18}
-                        className={`${isActive && "brightness-200"}`}
-                      />
-                      <span  className={cn({
-                        'text-secondary brightness-200':isActive
-                      })}>
-                      {link.label}
-                      </span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+                  return (
+                    <li
+                      key={link.route}
+                      className={cn({
+                        "sidebar-nav_element group w-full border border-secondary bg-accent dark:bg-accent text-secondary":
+                          true,
+                      })}
+                    >
+                      <Link
+                        className="sidebar-link !gap-2 text-sm flex justify-center"
+                        href={link.route}
+                      >
+                        <Plus className="h-5 w-5" />
+                        <span
+                          className={cn({
+                            "text-secondary": isActive,
+                          })}
+                        >
+                          Create
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+              <ul className="sidebar-nav_elements">
+                {navLinks.slice(1, 6).map((link) => {
+                  const isActive = link.route === pathname;
 
+                  return (
+                    <li
+                      key={link.route}
+                      className={`sidebar-nav_element group w-full ${
+                        isActive
+                          ? "bg-accent dark:bg-accent text-secondary"
+                          : ""
+                      }`}
+                    >
+                      <Link className="sidebar-link text-sm" href={link.route}>
+                        <link.icon className="h-[17px] w-[17px]"/>
+                        <span
+                          className={cn({
+                            "text-secondary": isActive,
+                          })}
+                        >
+                          {link.label}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
             <ul className="sidebar-nav_elements">
               {navLinks.slice(6).map((link) => {
                 const isActive = link.route === pathname;
@@ -69,18 +99,18 @@ const Sidebar = () => {
                       isActive ? "bg-accent dark:bg-accent text-secondary" : ""
                     }`}
                   >
-                    <Link className="sidebar-link flex justify-start text-sm" href={link.route}>
-                      <Image
-                        src={link.icon}
-                        alt="Mikrosell link icon"
-                        width={18}
-                        height={18}
-                        className={`${isActive && "brightness-200"}`}
-                      />
-                        <span  className={cn({
-                        'text-secondary brightness-200':isActive
-                      })}>
-                      {link.label}
+                    <Link
+                      className="sidebar-link flex justify-start text-sm"
+                      href={link.route}
+                    >
+                      <link.icon className="h-[17px] w-[17px]"/>
+
+                      <span
+                        className={cn({
+                          "text-secondary": isActive,
+                        })}
+                      >
+                        {link.label}
                       </span>
                     </Link>
                   </li>

@@ -49,7 +49,7 @@ export const Collection = ({
   return (
     <>
       <div className="collection-heading">
-        <h2 className="h2-bold dark:text-lemon">Recent Edits</h2>
+        <h2 className=" dark:text-lemon text-sm font-medium">Recent Edits</h2>
         {hasSearch && <Search />}
       </div>
 
@@ -97,7 +97,7 @@ export const Collection = ({
 const Card = ({ image }: { image: IImage }) => {
   return (
     <li>
-      <Link href={`/app/transformations/${image._id}`} className="collection-card dark:bg-background dark:shadow-lemon">
+      <Link href={`/app/transformations/${image._id}`} className="collection-card dark:bg-background  overflow-hidden">
         <CldImage
           src={image.publicId}
           alt={image.title}
@@ -105,11 +105,11 @@ const Card = ({ image }: { image: IImage }) => {
           height={image.height}
           {...image.config}
           loading="lazy"
-          className="h-52 w-full rounded-[10px] object-cover"
+          className="h-52 w-full object-cover"
           sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
         />
-        <div className="flex-between">
-          <p className="p-20-semibold mr-3 line-clamp-1 text-lemon">
+        <div className="flex-between p-2 h-full items-center">
+          <p className="text-sm mr-3 line-clamp-1 ">
             {image.title}
           </p>
           <Image
