@@ -90,13 +90,13 @@ const TransformationForm = ({
       });
 
       const imageData = {
-        title: values.title,
-        publicId: image?.publicId,
+        title: values.title!,
+        publicId: image.publicId,
         transformationType: type,
-        width: image?.width,
-        height: image?.height,
+        width: image.width,
+        height: image.height,
         config: transformationConfig,
-        secureURL: image?.secureURL,
+        secureURL: image.secureURL,
         transformationURL: transformationUrl,
         aspectRatio: values.aspectRatio,
         prompt: values.prompt,
@@ -226,7 +226,7 @@ const TransformationForm = ({
               <TransformedImage
                 image={image}
                 type={type}
-                title={form.getValues().title}
+                title={form.getValues().title!}
                 isTransforming={isTransforming}
                 setIsTransforming={setIsTransforming}
                 transformationConfig={transformationConfig}
