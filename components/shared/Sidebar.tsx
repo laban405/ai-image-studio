@@ -1,6 +1,5 @@
 "use client";
 
-
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,9 +8,14 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { navLinks } from "@/constants/nav-links";
+import { useLayerStore } from "@/lib/layer-store";
+import VideoTools from "@/features/editor/components/toolbar/video-tools";
+import ImageTools from "@/features/editor/components/toolbar/image-tools";
+import ExportAsset from "@/features/editor/components/toolbar/export-image";
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const activeLayer = useLayerStore((state) => state.activeLayer);
 
   return (
     <aside className="sidebar">
@@ -30,9 +34,20 @@ const Sidebar = () => {
 
         <nav className="sidebar-nav">
           <SignedIn>
+            <div className="py-4 px-4  w-full">
+              <div className="flex flex-col gap-4 ">
+                {activeLayer.resourceType === "video" ? <VideoTools /> : null}
+                {activeLayer.resourceType === "image" ? <ImageTools /> : null}
+                {activeLayer.resourceType && (
+                  <ExportAsset resource={activeLayer.resourceType} />
+                )}
+              </div>
+            </div>
+          </SignedIn>
+          <SignedIn>
             <div>
-              <ul className="sidebar-nav_elements my-6 mb-8">
-                {navLinks.slice(0, 1).map((link) => {
+              {/* <ul className="sidebar-nav_elements my-6 mb-8"> */}
+              {/* {navLinks.slice(0, 1).map((link) => {
                   const isActive = link.route === pathname;
 
                   return (
@@ -58,10 +73,10 @@ const Sidebar = () => {
                       </Link>
                     </li>
                   );
-                })}
-              </ul>
-              <ul className="sidebar-nav_elements">
-                {navLinks.slice(1, 6).map((link) => {
+                })} */}
+              {/* </ul> */}
+              {/* <ul className="sidebar-nav_elements"> */}
+              {/* {navLinks.slice(1, 6).map((link) => {
                   const isActive = link.route === pathname;
 
                   return (
@@ -85,8 +100,8 @@ const Sidebar = () => {
                       </Link>
                     </li>
                   );
-                })}
-              </ul>
+                })} */}
+              {/* </ul> */}
             </div>
             <ul className="sidebar-nav_elements">
               {navLinks.slice(6).map((link) => {
@@ -103,7 +118,7 @@ const Sidebar = () => {
                       className="sidebar-link flex justify-start text-sm"
                       href={link.route}
                     >
-                      <link.icon className="h-[17px] w-[17px]"/>
+                      <link.icon className="h-[17px] w-[17px]" />
 
                       <span
                         className={cn({

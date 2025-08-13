@@ -105,14 +105,18 @@
 
 @layer base {
   * {
-    @apply border-border;
+    /* @apply border-border; */
   }
     html {
     @apply scroll-smooth scroll-pt-12;
   }
   body {
-    @apply bg-gray-100 dark:bg-background text-foreground dark:text-lemon dark:border-accent border-gray-200;
+    @apply bg-white dark:bg-background text-foreground dark:text-lemon dark:border-accent border-gray-200;
   }
+}
+
+.white-bg{
+   @apply bg-white dark:bg-background;
 }
 
 .auth {
@@ -120,7 +124,7 @@
 }
 
 .root {
-  @apply flex min-h-screen w-full flex-col  lg:flex-row;
+  @apply flex min-h-screen max-h-screen w-full flex-col  lg:flex-row overflow-y-scroll;
 }
 
 .root-container {
@@ -131,7 +135,7 @@
 @layer utilities {
   /* ===== UTILITIES */
   .wrapper {
-    @apply max-w-full p-5 md:p-10 w-full  p-16-regular rounded-lg;
+    @apply max-w-full w-full  p-16-regular;
   }
 
   .gradient-text {
@@ -352,7 +356,7 @@
 
   /* Sidebar Component */
   .sidebar {
-    @apply hidden h-screen w-64  p-5  lg:flex border border-r-gray-200 dark:border-r-accent;
+    @apply hidden h-screen max-h-screen w-40  p-3  lg:flex border border-r-gray-200 dark:border-r-accent overflow-y-scroll;
   }
 
   .sidebar-logo {

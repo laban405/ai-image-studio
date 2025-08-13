@@ -31,6 +31,7 @@ export default function RootLayout({
         variables: { colorPrimary: "#B17E64" },
       }}
     >
+     
       <html lang="en" suppressHydrationWarning className={ubuntu.className}>
         <body >
           <ThemeProvider
@@ -43,6 +44,7 @@ export default function RootLayout({
           </ThemeProvider>
         </body>
       </html>
+      
     </ClerkProvider>
   );
 }
