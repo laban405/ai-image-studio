@@ -1,6 +1,6 @@
 "use client";
 import { useProjectStore } from "@/lib/project-store";
-import SmartCrop from "./smart-crop";
+// import SmartCrop from "./smart-crop";
 import ExportImage from "./export-image";
 import VideoTranscription from "./transcribe";
 
@@ -10,7 +10,7 @@ export default function VideoTools() {
     return (
       <>
         <VideoTranscription />
-        <SmartCrop />
+        {/* <SmartCrop /> */}
       </>
     );
 }
