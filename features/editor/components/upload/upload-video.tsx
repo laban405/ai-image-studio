@@ -48,7 +48,7 @@ export default function UploadVideo() {
             resourceType: res.data.success.resource_type,
           });
           setTags(res.data.success.tags);
-          setActiveLayer(activeLayer?.id);
+          setActiveLayer(activeLayer?.id!);
           console.log(res.data.success);
           setGenerating(false);
         }
