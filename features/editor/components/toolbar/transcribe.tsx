@@ -37,7 +37,7 @@ export default function VideoTranscription() {
               ...activeLayer,
               transcriptionURL: result.data.subtitledVideoUrl,
             });
-            setActiveLayer(activeLayer?.id);
+            setActiveLayer(activeLayer?.id!);
           }
         } else if (result.data && "error" in result.data) {
           toast.error(result.data.error);
