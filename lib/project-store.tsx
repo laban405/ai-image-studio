@@ -32,6 +32,8 @@ export type Layer = {
   height?: number;
   url?: string;
   _id?: string;
+  id?: string;
+
   name?: string;
   format?: string;
   poster?: string;
