@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayerStore } from "@/lib/layer-store";
+import { useProjectStore } from "@/lib/project-store";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { Download } from "lucide-react";
@@ -15,13 +15,13 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 export default function ExportAsset({ resource }: { resource: string }) {
-  const activeLayer = useLayerStore((state) => state.activeLayer);
+  const activeLayer = useProjectStore((state) => state.activeLayer);
   const [selected, setSelected] = useState("original");
   const handleDownload = async () => {
     if (activeLayer?.publicId) {
       try {
         const res = await fetch(
-          `/api/download?publicId=${activeLayer.publicId}&quality=${selected}&resource_type=${activeLayer.resourceType}&format=${activeLayer.format}&url=${activeLayer.url}`
+          `/api/download?publicId=${activeLayer?.publicId}&quality=${selected}&resource_type=${activeLayer?.resourceType}&format=${activeLayer?.format}&url=${activeLayer?.url}`
         );
         if (!res.ok) {
           throw new Error("Failed to fetch image URL");
@@ -80,7 +80,7 @@ export default function ExportAsset({ resource }: { resource: string }) {
               <CardContent className="p-0">
                 <CardTitle className="text-md">Original</CardTitle>
                 <CardDescription>
-                  {activeLayer.width}X{activeLayer.height}
+                  {activeLayer?.width}X{activeLayer?.height}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -94,8 +94,8 @@ export default function ExportAsset({ resource }: { resource: string }) {
               <CardContent className="p-0">
                 <CardTitle className="text-md">Large</CardTitle>
                 <CardDescription>
-                  {(activeLayer.width! * 0.7).toFixed(0)}X
-                  {(activeLayer.height! * 0.7).toFixed(0)}
+                  {(activeLayer?.width! * 0.7).toFixed(0)}X
+                  {(activeLayer?.height! * 0.7).toFixed(0)}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -109,8 +109,8 @@ export default function ExportAsset({ resource }: { resource: string }) {
               <CardContent className="p-0">
                 <CardTitle className="text-md">Medium</CardTitle>
                 <CardDescription>
-                  {(activeLayer.width! * 0.5).toFixed(0)}X
-                  {(activeLayer.height! * 0.5).toFixed(0)}
+                  {(activeLayer?.width! * 0.5).toFixed(0)}X
+                  {(activeLayer?.height! * 0.5).toFixed(0)}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -124,8 +124,8 @@ export default function ExportAsset({ resource }: { resource: string }) {
               <CardContent className="p-0">
                 <CardTitle className="text-md">Small</CardTitle>
                 <CardDescription>
-                  {(activeLayer.width! * 0.3).toFixed(0)}X
-                  {(activeLayer.height! * 0.3).toFixed(0)}
+                  {(activeLayer?.width! * 0.3).toFixed(0)}X
+                  {(activeLayer?.height! * 0.3).toFixed(0)}
                 </CardDescription>
               </CardContent>
             </Card>

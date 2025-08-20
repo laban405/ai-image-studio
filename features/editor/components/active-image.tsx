@@ -1,20 +1,20 @@
 // import { useImageStore } from "@/lib/store"
 // import Image from "next/image"
 // import { cn } from "@/lib/utils"
-// import { Layer, useLayerStore } from "@/lib/layer-store"
+// import { Layer, useProjectStore } from "@/lib/layer-store"
 // import { motion } from "framer-motion"
 // import ImageComparison from "./layers/image-comparison"
 
 // export default function ActiveImage() {
 //   const generating = useImageStore((state) => state.generating)
-//   const activeLayer = useLayerStore((state) => state.activeLayer)
-//   const layerComparisonMode = useLayerStore(
+//   const activeLayer = useProjectStore((state) => state.activeLayer)
+//   const layerComparisonMode = useProjectStore(
 //     (state) => state.layerComparisonMode
 //   )
-//   const comparedLayers = useLayerStore((state) => state.comparedLayers)
-//   const layers = useLayerStore((state) => state.layers)
+//   const comparedLayers = useProjectStore((state) => state.comparedLayers)
+//   const layers = useProjectStore((state) => state.layers)
 
-//   if (!activeLayer.url && comparedLayers.length === 0) return null
+//   if (!activeLayer?.url && comparedLayers.length === 0) return null
 
 //   const renderLayer = (layer: Layer) => (
 //     <div className="relative w-full h-full flex items-center justify-center">
@@ -69,7 +69,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useImageStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import { Layer, useLayerStore } from "@/lib/layer-store";
+import { Layer, useProjectStore } from "@/lib/project-store";
 import { motion } from "framer-motion";
 import ImageComparison from "./layers/image-comparison";
 import { Button } from "./ui/button";
@@ -109,12 +109,12 @@ const ASPECT_RATIOS = [
 
 export default function ActiveImage() {
   const generating = useImageStore((state) => state.generating);
-  const activeLayer = useLayerStore((state) => state.activeLayer);
-  const layerComparisonMode = useLayerStore(
+  const activeLayer = useProjectStore((state) => state.activeLayer);
+  const layerComparisonMode = useProjectStore(
     (state) => state.layerComparisonMode
   );
-  const comparedLayers = useLayerStore((state) => state.comparedLayers);
-  const layers = useLayerStore((state) => state.layers);
+  const comparedLayers = useProjectStore((state) => state.comparedLayers);
+  const layers = useProjectStore((state) => state.layers);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const maskCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -242,7 +242,7 @@ export default function ActiveImage() {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
     ctx!.fillStyle = "green";
-ctx!.fillRect(0, 0, canvas!.width, canvas!.height);
+    ctx!.fillRect(0, 0, canvas!.width, canvas!.height);
     const img = imgRef.current;
     if (!canvas || !ctx || !img) return;
 
@@ -263,8 +263,8 @@ ctx!.fillRect(0, 0, canvas!.width, canvas!.height);
   const drawMask = useCallback(() => {
     const maskCanvas = maskCanvasRef.current;
     const ctx = maskCanvas?.getContext("2d");
-     ctx!.fillStyle = "green";
-ctx!.fillRect(0, 0, maskCanvas!.width, maskCanvas!.height);
+    ctx!.fillStyle = "green";
+    ctx!.fillRect(0, 0, maskCanvas!.width, maskCanvas!.height);
     const img = imgRef.current;
     if (!maskCanvas || !ctx || !img) return;
 
@@ -359,11 +359,11 @@ ctx!.fillRect(0, 0, maskCanvas!.width, maskCanvas!.height);
 
   // Load image
   useEffect(() => {
-    if (!activeLayer?.url || activeLayer.resourceType !== "image") return;
+    if (!activeLayer?.url || activeLayer?.resourceType !== "image") return;
 
     const img = new Image();
     img.crossOrigin = "anonymous";
-    img.src = activeLayer.url;
+    img.src = activeLayer?.url;
     img.onload = () => {
       imgRef.current = img;
 

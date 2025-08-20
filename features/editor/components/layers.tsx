@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useLayerStore } from "@/lib/layer-store";
+import { useProjectStore } from "@/lib/project-store";
 import {
   Card,
   CardContent,
@@ -29,31 +29,33 @@ import LayerImage from "./layers/layer-image";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import LayerInfo from "./layers/layer-info";
+import { addLayerApi } from "@/lib/actions/layer.actions";
 
 export default function Layers() {
-  const layers = useLayerStore((state) => state.layers);
-  const activeLayer = useLayerStore((state) => state.activeLayer);
-  const setActiveLayer = useLayerStore((state) => state.setActiveLayer);
-  const addLayer = useLayerStore((state) => state.addLayer);
+  const layers = useProjectStore((state) => state.layers);
+  const project = useProjectStore((state) => state);
+  const activeLayer = useProjectStore((state) => state.activeLayer);
+  const setActiveLayer = useProjectStore((state) => state.setActiveLayer);
+  const addLayer = useProjectStore((state) => state.addLayer);
   const generating = useImageStore((state) => state.generating);
-  const layerComparisonMode = useLayerStore(
+  const layerComparisonMode = useProjectStore(
     (state) => state.layerComparisonMode
   );
-  const setLayerComparisonMode = useLayerStore(
+  const setLayerComparisonMode = useProjectStore(
     (state) => state.setLayerComparisonMode
   );
-  const comparedLayers = useLayerStore((state) => state.comparedLayers);
-  const toggleComparedLayer = useLayerStore(
+  const comparedLayers = useProjectStore((state) => state.comparedLayers);
+  const toggleComparedLayer = useProjectStore(
     (state) => state.toggleComparedLayer
   );
-  const setComparedLayers = useLayerStore((state) => state.setComparedLayers);
+  const setComparedLayers = useProjectStore((state) => state.setComparedLayers);
 
   const MCard = useMemo(() => motion(Card), []);
   const MButton = useMemo(() => motion(Button), []);
 
   const getLayerName = useMemo(
     () => (id: string) => {
-      const layer = layers.find((l) => l.id === id);
+      const layer = layers.find((l) => l._id === id);
       return layer ? layer.url : "Nothing here";
     },
     [layers]
@@ -75,8 +77,9 @@ export default function Layers() {
           true,
         "scrollbar-thumb-primary scrollbar-thumb-rounded-full scrollbar-track-rounded-full border-t-0 border-b-0":
           true,
-          "border-t-0 border-b-0 border-r-0":true,
-        " overflow-x-hidden relative flex flex-col shadow-none rounded-none dark:border-accent bg-white dark:bg-card": true,
+        "border-t-0 border-b-0 border-r-0": true,
+        " overflow-x-hidden relative flex flex-col shadow-none rounded-none dark:border-accent bg-white dark:bg-card":
+          true,
       })}
     >
       <CardHeader className="sticky top-0 z-50 px-4 py-6  min-h-28 bg-white dark:bg-card shadow-sm">
@@ -106,11 +109,11 @@ export default function Layers() {
         ) : (
           <div className="flex flex-col gap-1 ">
             <CardTitle className="text-sm bg-white dark:bg-card">
-              {activeLayer.name || "Layers"}
+              {activeLayer?.name || "Layers"}
             </CardTitle>
-            {activeLayer.width && activeLayer.height ? (
+            {activeLayer?.width && activeLayer?.height ? (
               <CardDescription className="text-xs bg-white dark:bg-card">
-                {activeLayer.width}X{activeLayer.height}
+                {activeLayer?.width}X{activeLayer?.height}
               </CardDescription>
             ) : null}
           </div>
@@ -121,6 +124,7 @@ export default function Layers() {
           {visibleLayers.map((layer, index) => {
             return (
               <motion.div
+                key={layer._id! + index}
                 animate={{ scale: 1, opacity: 1 }}
                 initial={{ scale: 0, opacity: 0 }}
                 exit={{ scale: 0, opacity: 0 }}
@@ -129,18 +133,17 @@ export default function Layers() {
                   "cursor-pointer ease-in-out hover:bg-accent  border-transparent",
                   {
                     "bg-accent": layerComparisonMode
-                      ? comparedLayers.includes(layer.id)
-                      : activeLayer.id === layer.id,
+                      ? comparedLayers.includes(layer._id!)
+                      : activeLayer?._id === layer._id,
                     "animate-pulse": generating,
                   }
                 )}
-                key={layer.id}
                 onClick={() => {
                   if (generating) return;
                   if (layerComparisonMode) {
-                    toggleComparedLayer(layer.id);
+                    toggleComparedLayer(layer._id!);
                   } else {
-                    setActiveLayer(layer.id);
+                    setActiveLayer(layer._id!);
                   }
                 }}
               >
@@ -148,7 +151,7 @@ export default function Layers() {
                   <div className="flex gap-2 items-center h-8 w-full justify-between">
                     {!layer.url ? (
                       <p className="text-xs font-medium justify-self-end ">
-                        New layer
+                        {layer.name ?? "New layer"}
                       </p>
                     ) : null}
                     <LayerImage layer={layer} />
@@ -165,16 +168,30 @@ export default function Layers() {
       <CardContent className="sticky bottom-0 bg-card flex gap-2  shrink-0 bg-white dark:bg-card">
         <MButton
           layout
-          onClick={() => {
-            addLayer({
-              id: crypto.randomUUID(),
-              url: "",
+          onClick={async () => {
+            console.log("added layer project", project);
+
+            const newLayer = {
+              projectId: project.id,
+              userId: project.user._id,
+              name: "New Layer",
+              format: "",
               height: 0,
               width: 0,
+              url: "",
               publicId: "",
-              name: "",
-              format: "",
+              resourceType: "image",
+            };
+            const addedLayer = await addLayerApi({
+              layer: newLayer,
+              userId: project.user._id,
+              path: "/",
             });
+            console.log("added create layer", addedLayer);
+            addLayer({
+              ...addedLayer,
+            });
+            setActiveLayer(addedLayer._id);
           }}
           variant="outline"
           className="w-full flex gap-2"
@@ -183,13 +200,13 @@ export default function Layers() {
           <Layers2 className="text-secondary-foreground" size={18} />
         </MButton>
         <MButton
-          disabled={!activeLayer.url || activeLayer.resourceType === "video"}
+          disabled={!activeLayer?.url || activeLayer?.resourceType === "video"}
           layout
           onClick={() => {
             if (layerComparisonMode) {
               setLayerComparisonMode(!layerComparisonMode);
-            } else {
-              setComparedLayers([activeLayer.id]);
+            } else if (activeLayer?._id) {
+              setComparedLayers([activeLayer?._id]);
             }
           }}
           variant={layerComparisonMode ? "destructive" : "outline"}

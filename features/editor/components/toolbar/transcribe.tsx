@@ -1,66 +1,66 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { useLayerStore } from "@/lib/layer-store"
-import { useImageStore } from "@/lib/store"
-import { useState } from "react"
-import { toast } from "sonner"
-import { initiateTranscription } from "@/server/transcribe"
-import { Captions } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { useProjectStore } from "@/lib/project-store";
+import { useImageStore } from "@/lib/store";
+import { useState } from "react";
+import { toast } from "sonner";
+import { initiateTranscription } from "@/server/transcribe";
+import { Captions } from "lucide-react";
 
 export default function VideoTranscription() {
-  const activeLayer = useLayerStore((state) => state.activeLayer)
-  const updateLayer = useLayerStore((state) => state.updateLayer)
-  const [transcribing, setTranscribing] = useState(false)
-  const setGenerating = useImageStore((state) => state.setGenerating)
-  const setActiveLayer = useLayerStore((state) => state.setActiveLayer)
+  const activeLayer = useProjectStore((state) => state.activeLayer);
+  const updateLayer = useProjectStore((state) => state.updateLayer);
+  const [transcribing, setTranscribing] = useState(false);
+  const setGenerating = useImageStore((state) => state.setGenerating);
+  const setActiveLayer = useProjectStore((state) => state.setActiveLayer);
 
   const handleTranscribe = async () => {
-    if (!activeLayer.publicId || activeLayer.resourceType !== "video") {
-      toast.error("Please select a video layer first")
-      return
+    if (!activeLayer?.publicId || activeLayer?.resourceType !== "video") {
+      toast.error("Please select a video layer first");
+      return;
     }
 
-    setTranscribing(true)
-    setGenerating(true)
+    setTranscribing(true);
+    setGenerating(true);
 
     try {
       const result = await initiateTranscription({
-        publicId: activeLayer.publicId,
-      })
+        publicId: activeLayer?.publicId,
+      });
 
       if (result) {
         if (result.data && "success" in result.data) {
-          toast.success(result.data.success)
+          toast.success(result.data.success);
           if (result.data.subtitledVideoUrl) {
             updateLayer({
               ...activeLayer,
               transcriptionURL: result.data.subtitledVideoUrl,
-            })
-            setActiveLayer(activeLayer.id)
+            });
+            setActiveLayer(activeLayer?.id);
           }
         } else if (result.data && "error" in result.data) {
-          toast.error(result.data.error)
+          toast.error(result.data.error);
         } else {
-          toast.error("Unexpected response from server")
+          toast.error("Unexpected response from server");
         }
       }
     } catch (error) {
-      toast.error("An error occurred during transcription")
-      console.error("Transcription error:", error)
+      toast.error("An error occurred during transcription");
+      console.error("Transcription error:", error);
     } finally {
-      setTranscribing(false)
-      setGenerating(false)
+      setTranscribing(false);
+      setGenerating(false);
     }
-  }
+  };
 
   return (
     <div className="flex items-center">
-      {!activeLayer.transcriptionURL && (
+      {!activeLayer?.transcriptionURL && (
         <Button
           className="py-8 w-full"
           onClick={handleTranscribe}
-          disabled={transcribing || activeLayer.resourceType !== "video"}
+          disabled={transcribing || activeLayer?.resourceType !== "video"}
           variant={"outline"}
         >
           <span className="flex gap-1 items-center justify-center flex-col text-xs font-medium">
@@ -70,10 +70,10 @@ export default function VideoTranscription() {
         </Button>
       )}
 
-      {activeLayer.transcriptionURL && (
+      {activeLayer?.transcriptionURL && (
         <Button className="py-8 w-full" variant={"outline"} asChild>
           <a
-            href={activeLayer.transcriptionURL}
+            href={activeLayer?.transcriptionURL}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -85,5 +85,5 @@ export default function VideoTranscription() {
         </Button>
       )}
     </div>
-  )
+  );
 }

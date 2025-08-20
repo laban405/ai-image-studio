@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Dialog,
@@ -7,22 +7,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Button } from "../ui/button"
-import { Ellipsis, Trash } from "lucide-react"
-import { Layer, useLayerStore } from "@/lib/layer-store"
-import { useImageStore } from "@/lib/store"
+} from "@/components/ui/dialog";
+import { Button } from "../ui/button";
+import { Ellipsis, Trash } from "lucide-react";
+import { Layer, useProjectStore } from "@/lib/project-store";
+import { useImageStore } from "@/lib/store";
 
-export default function LayerInfo({  
+export default function LayerInfo({
   layer,
   layerIndex,
 }: {
-  layer: Layer
-  layerIndex: number
+  layer: Partial<Layer>;
+  layerIndex: number;
 }) {
-  const layers = useLayerStore((state) => state.layers)
-  const setActiveLayer = useLayerStore((state) => state.setActiveLayer)
-  const removeLayer = useLayerStore((state) => state.removeLayer)
+  const layers = useProjectStore((state) => state.layers);
+  const setActiveLayer = useProjectStore((state) => state.setActiveLayer);
+  const removeLayer = useProjectStore((state) => state.removeLayer);
 
   return (
     <Dialog>
@@ -33,7 +33,7 @@ export default function LayerInfo({
       </DialogTrigger>
       <DialogContent className="text-xs">
         <h3 className="text-lg font-medium text-center mb-2">
-          Layer {layer.id}
+          Layer {layer._id}
         </h3>
         <div className="py-4 space-y-0.5">
           <p>
@@ -49,9 +49,9 @@ export default function LayerInfo({
         </div>
         <Button
           onClick={(e) => {
-            e.stopPropagation()
-            setActiveLayer(layerIndex === 0 ? layers[1].id : layers[0].id)
-            removeLayer(layer.id)
+            e.stopPropagation();
+            setActiveLayer(layerIndex === 0 ? layers[1]._id! : layers[0]._id!);
+            removeLayer(layer._id!);
           }}
           variant={"destructive"}
           className="flex items-center gap-2 w-full"
@@ -61,5 +61,5 @@ export default function LayerInfo({
         </Button>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

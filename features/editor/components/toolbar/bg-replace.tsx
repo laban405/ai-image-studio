@@ -1,27 +1,30 @@
-"use client"
+"use client";
 
-import { useImageStore } from "@/lib/store"
-import { Button } from "@/components/ui/button"
-import { replaceBackground } from "@/server/bg-replace"
+import { useImageStore } from "@/lib/store";
+import { Button } from "@/components/ui/button";
+import { replaceBackground } from "@/server/bg-replace";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { ImageOff } from "lucide-react"
-import { useLayerStore } from "@/lib/layer-store"
-import { useState } from "react"
+} from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ImageOff } from "lucide-react";
+import { useProjectStore } from "@/lib/project-store";
+import { useState } from "react";
+import { addLayerApi } from "@/lib/actions/layer.actions";
 
 export default function AIBackgroundReplace() {
-  const setGenerating = useImageStore((state) => state.setGenerating)
-  const activeLayer = useLayerStore((state) => state.activeLayer)
-  const addLayer = useLayerStore((state) => state.addLayer)
-  const generating = useImageStore((state) => state.generating)
-  const setActiveLayer = useLayerStore((state) => state.setActiveLayer)
+  const project = useProjectStore((state) => state);
 
-  const [prompt, setPrompt] = useState("")
+  const setGenerating = useImageStore((state) => state.setGenerating);
+  const activeLayer = useProjectStore((state) => state.activeLayer);
+  const addLayer = useProjectStore((state) => state.addLayer);
+  const generating = useImageStore((state) => state.generating);
+  const setActiveLayer = useProjectStore((state) => state.setActiveLayer);
+
+  const [prompt, setPrompt] = useState("");
 
   return (
     <Popover>
@@ -60,26 +63,36 @@ export default function AIBackgroundReplace() {
           disabled={!activeLayer?.url || generating}
           className="w-full mt-4"
           onClick={async () => {
-            setGenerating(true)
+            setGenerating(true);
             const res = await replaceBackground({
               prompt: prompt,
-              activeImage: activeLayer.url!,
-            })
+              activeImage: activeLayer?.url!,
+            });
 
             if (res?.data?.success) {
-              const newLayerId = crypto.randomUUID()
-              addLayer({
-                id: newLayerId,
-                name: "bg-replaced-" + activeLayer.name,
-                format: activeLayer.format,
-                height: activeLayer.height,
-                width: activeLayer.width,
+              const newLayer = {
+                projectId: project.id,
+                userId: project.user._id,
+                name: "bg-replaced-" + activeLayer?.name,
+                format: "png",
+                height: activeLayer?.height!,
+                width: activeLayer?.width!,
                 url: res.data.success,
-                publicId: activeLayer.publicId,
+                publicId: activeLayer?.publicId!,
                 resourceType: "image",
-              })
-              setGenerating(false)
-              setActiveLayer(newLayerId)
+              };
+              const addedLayer = await addLayerApi({
+                layer: newLayer,
+                userId: project.user._id,
+                path: "/",
+              });
+
+              addLayer({
+                ...addedLayer,
+              });
+
+              setGenerating(false);
+              setActiveLayer(addedLayer._id);
             }
           }}
         >
@@ -87,5 +100,5 @@ export default function AIBackgroundReplace() {
         </Button>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

@@ -1,42 +1,45 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import { useImageStore } from "@/lib/store"
-import { Button } from "@/components/ui/button"
-import { extractImage } from "@/server/extract"
+import React, { useState } from "react";
+import { useImageStore } from "@/lib/store";
+import { Button } from "@/components/ui/button";
+import { extractImage } from "@/server/extract";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Scissors } from "lucide-react"
-import { useLayerStore } from "@/lib/layer-store"
-import { Checkbox } from "@/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+} from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Scissors } from "lucide-react";
+import { useProjectStore } from "@/lib/project-store";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { addLayerApi } from "@/lib/actions/layer.actions";
 
 export default function ExtractPart() {
-  const setGenerating = useImageStore((state) => state.setGenerating)
-  const activeLayer = useLayerStore((state) => state.activeLayer)
-  const addLayer = useLayerStore((state) => state.addLayer)
-  const generating = useImageStore((state) => state.generating)
-  const setActiveLayer = useLayerStore((state) => state.setActiveLayer)
+  const project = useProjectStore((state) => state);
 
-  const [prompts, setPrompts] = useState([""])
-  const [multiple, setMultiple] = useState(false)
-  const [mode, setMode] = useState("default")
-  const [invert, setInvert] = useState(false)
+  const setGenerating = useImageStore((state) => state.setGenerating);
+  const activeLayer = useProjectStore((state) => state.activeLayer);
+  const addLayer = useProjectStore((state) => state.addLayer);
+  const generating = useImageStore((state) => state.generating);
+  const setActiveLayer = useProjectStore((state) => state.setActiveLayer);
+
+  const [prompts, setPrompts] = useState([""]);
+  const [multiple, setMultiple] = useState(false);
+  const [mode, setMode] = useState("default");
+  const [invert, setInvert] = useState(false);
 
   const addPrompt = () => {
-    setPrompts([...prompts, ""])
-  }
+    setPrompts([...prompts, ""]);
+  };
 
   const updatePrompt = (index: number, value: string) => {
-    const newPrompts = [...prompts]
-    newPrompts[index] = value
-    setPrompts(newPrompts)
-  }
+    const newPrompts = [...prompts];
+    newPrompts[index] = value;
+    setPrompts(newPrompts);
+  };
 
   return (
     <Popover>
@@ -113,30 +116,40 @@ export default function ExtractPart() {
           }
           className="w-full mt-4"
           onClick={async () => {
-            setGenerating(true)
+            setGenerating(true);
             const res = await extractImage({
               prompts: prompts.filter((p) => p.trim() !== ""),
-              activeImage: activeLayer.url!,
-              format: activeLayer.format!,
+              activeImage: activeLayer?.url!,
+              format: activeLayer?.format!,
               multiple,
               mode: mode as "default" | "mask",
               invert,
-            })
+            });
 
             if (res?.data?.success) {
-              const newLayerId = crypto.randomUUID()
-              addLayer({
-                id: newLayerId,
-                name: "extracted-" + activeLayer.name,
-                format: ".png",
-                height: activeLayer.height,
-                width: activeLayer.width,
+              const newLayer = {
+                projectId: project.id,
+                userId: project.user._id,
+                name: "extracted-" + activeLayer?.name,
+                format: "png",
+                height: activeLayer?.height!,
+                width: activeLayer?.width!,
                 url: res.data.success,
-                publicId: activeLayer.publicId,
+                publicId: activeLayer?.publicId!,
                 resourceType: "image",
-              })
-              setGenerating(false)
-              setActiveLayer(newLayerId)
+              };
+              const addedLayer = await addLayerApi({
+                layer: newLayer,
+                userId: project.user._id,
+                path: "/",
+              });
+
+              addLayer({
+                ...addedLayer,
+              });
+
+              setGenerating(false);
+              setActiveLayer(addedLayer._id);
             }
           }}
         >
@@ -144,5 +157,5 @@ export default function ExtractPart() {
         </Button>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

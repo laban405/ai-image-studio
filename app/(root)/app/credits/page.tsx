@@ -16,10 +16,20 @@ import Checkout from "@/components/shared/Checkout";
 
 const Credits = async () => {
   const { userId } = auth();
-
   if (!userId) redirect("/sign-in");
 
-  const user = await getUserById(userId);
+  let user;
+  try {
+    user = await getUserById(userId);
+
+    if (!user) {
+      console.error(`User with ID ${userId} not found`);
+      redirect("/sign-in");
+    }
+  } catch (err) {
+    console.error("Error fetching user:", err);
+    redirect("/sign-in");
+  }
 
   return (
     <>
@@ -34,9 +44,7 @@ const Credits = async () => {
             <li key={plan.name} className="credits-item">
               <div className="flex-center flex-col gap-3">
                 <Image src={plan.icon} alt="check" width={50} height={50} />
-                <p className="p-20-semibold mt-2 ">
-                  {plan.name}
-                </p>
+                <p className="p-20-semibold mt-2 ">{plan.name}</p>
                 <p className="h1-semibold ">KSh {plan.price}</p>
                 {/* <p className="p-16-regular">{plan.credits} Credits</p> */}
               </div>

@@ -1,5 +1,69 @@
 /* eslint-disable no-unused-vars */
 
+declare type CreateLayerParams = {
+  layer: {
+    projectId: string;
+    userId: string;
+    name: string;
+    format: string;
+    height: number;
+    width: number;
+    url: string;
+    publicId: string;
+    resourceType: string;
+  };
+  userId: string;
+  path: string;
+};
+
+declare type UpdateLayerParams = {
+  layer: {
+    _id: string;
+    projectId: string;
+    userId: string;
+    name: string;
+    format: string;
+    height: number;
+    width: number;
+    url: string;
+    publicId: string;
+    resourceType: string;
+  };
+  userId: string;
+  path: string;
+};
+
+declare type CreateProjectParams = {
+  project: {
+    name: string;
+    userId: string;
+    thumbnailUrl?: string;
+    isTemplate?: boolean;
+    activeLayer?: Types.ObjectId;
+    layerComparisonMode?: boolean;
+    comparedLayers?: Types.ObjectId[];
+    version?: number;
+  };
+  userId: string;
+  path: string;
+};
+
+declare type UpdateProjectParams = {
+  project: {
+    _id: string;
+    name: string;
+    userId: string;
+    thumbnailUrl?: string;
+    isTemplate?: boolean;
+    activeLayer?: Types.ObjectId;
+    layerComparisonMode?: boolean;
+    comparedLayers?: Types.ObjectId[];
+    version?: number;
+  };
+  userId: string;
+  path: string;
+};
+
 // ====== USER PARAMS
 declare type CreateUserParams = {
   clerkId: string;
@@ -92,8 +156,8 @@ declare type CreateTransactionParams = {
   checkoutRequestID?: string;
   createdAt?: Date;
   mpesaDetails?: {
-          phoneNumber?: string,
-        },
+    phoneNumber?: string;
+  };
 };
 
 declare type TransformationTypeKey =

@@ -38,7 +38,7 @@ const UserSchema = new Schema({
     type: Number,
     default: 100,
   },
-});
+}); 
 
 const User = models?.User || model("User", UserSchema);
 

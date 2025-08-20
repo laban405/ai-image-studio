@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { Layer } from "@/lib/layer-store"
-import Image from "next/image"
+import { Layer } from "@/lib/project-store";
+import Image from "next/image";
 
-export default function LayerImage({ layer }: { layer: Layer }) {
+export default function LayerImage({ layer }: { layer: Partial<Layer> }) {
   if (layer.url)
     return (
       <>
@@ -22,5 +22,5 @@ export default function LayerImage({ layer }: { layer: Layer }) {
           }`}</p>
         </div>
       </>
-    )
+    );
 }

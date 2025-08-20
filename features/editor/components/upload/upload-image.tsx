@@ -6,7 +6,7 @@ import { useDropzone } from "react-dropzone";
 import Lottie from "lottie-react";
 import { Card, CardContent } from "../ui/card";
 import { cn } from "@/lib/utils";
-import { useLayerStore } from "@/lib/layer-store";
+import { useProjectStore } from "@/lib/project-store";
 import imageAnimation from "@/public/animations/image-upload.json";
 import { toast } from "sonner";
 import MediaUploader from "@/components/shared/MediaUploader";
@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { defaultValues } from "@/constants";
 import { Form } from "../ui/form";
 import { useState } from "react";
+import { updateLayerApi } from "@/lib/actions/layer.actions";
 
 export const formSchema = z.object({
   // title: z.string().optional(),
@@ -28,116 +29,58 @@ export const formSchema = z.object({
 
 export default function UploadImage() {
   const setTags = useImageStore((state) => state.setTags);
+  const project = useProjectStore((state) => state);
   const setGenerating = useImageStore((state) => state.setGenerating);
-  const activeLayer = useLayerStore((state) => state.activeLayer);
-  const updateLayer = useLayerStore((state) => state.updateLayer);
-  const setActiveLayer = useLayerStore((state) => state.setActiveLayer);
+  const activeLayer = useProjectStore((state) => state.activeLayer);
+  const updateLayer = useProjectStore((state) => state.updateLayer);
+  const setActiveLayer = useProjectStore((state) => state.setActiveLayer);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { publicId: "" },
   });
   const [image, setImage] = useState(null);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    maxFiles: 1,
-    accept: {
-      "image/png": [".png"],
-      "image/jpg": [".jpg"],
-      "image/webp": [".webp"],
-      "image/jpeg": ["jpeg"],
-    },
-    onDrop: async (acceptedFiles, fileRejections) => {
-      if (acceptedFiles.length) {
-        const formData = new FormData();
-        formData.append("image", acceptedFiles[0]);
-        // Generate Object url
-        const objectUrl = URL.createObjectURL(acceptedFiles[0]);
-        setGenerating(true);
-        // State management to create a new layers, set the active layer, set the image as the active layer
-        updateLayer({
-          id: activeLayer.id,
-          url: objectUrl,
-          width: 0,
-          height: 0,
-          name: "uploading",
-          publicId: "",
-          format: "",
-          resourceType: "image",
-        });
-        setActiveLayer(activeLayer.id);
-        const res = await uploadImage({ image: formData });
-
-        if (res?.data?.success) {
-          updateLayer({
-            id: activeLayer.id,
-            url: res.data.success.url,
-            width: res.data.success.width,
-            height: res.data.success.height,
-            name: res.data.success.original_filename,
-            publicId: res.data.success.public_id,
-            format: res.data.success.format,
-            resourceType: res.data.success.resource_type,
-          });
-          setTags(res.data.success.tags);
-
-          setActiveLayer(activeLayer.id);
-          console.log(activeLayer);
-          setGenerating(false);
-        }
-        if (res?.data?.error) {
-          setGenerating(false);
-        }
-      }
-
-      if (fileRejections.length) {
-        console.log("rejected");
-        toast.error(fileRejections[0].errors[0].message);
-      }
-    },
-  });
-
-  function setLayerState(response: any) {
+  async function setLayerState(response: any) {
+    await updateLayerApi({
+      layer: {
+        _id: activeLayer?._id!,
+        projectId: activeLayer?.projectId!,
+        userId: project.user._id,
+        name: response.original_filename,
+        format: response.format,
+        height: response.height,
+        width: response.width,
+        url: response.secure_url,
+        publicId: response.public_id,
+        resourceType: response.resource_type,
+      },
+      userId: project.user._id,
+      path: "/",
+    });
     updateLayer({
-      id: activeLayer.id,
-      url: response.secure_url,
-      width: response.width,
-      height: response.height,
+      _id: activeLayer?._id!,
+      projectId: activeLayer?.projectId!,
+      userId: project.user._id,
       name: response.original_filename,
-      publicId: response.public_id,
       format: response.format,
+      height: response.height,
+      width: response.width,
+      url: response.secure_url,
+      publicId: response.public_id,
       resourceType: response.resource_type,
     });
+    setActiveLayer(activeLayer?._id!);
     setTags(response.tags);
-
-    setActiveLayer(activeLayer.id);
   }
 
-  if (!activeLayer.url)
+  if (!activeLayer?.url)
     return (
-      <Card
-        {...getRootProps()}
-        className={cn(
-          " hover:cursor-pointer hover:bg-secondary hover:border-primary transition-all  ease-in-out ",
-          `${isDragActive ? "animate-pulse border-primary bg-secondary" : ""}`
-        )}
-      >
-        <CardContent className="flex flex-col h-full items-center justify-center px-2 py-24  text-xs ">
-          {/* <input {...getInputProps()} />
-          <div className="flex items-center flex-col justify-center gap-4">
-            <Lottie className="h-48" animationData={imageAnimation} />
-            <p className="text-muted-foreground text-2xl">
-              {isDragActive
-                ? "Drop your image here!"
-                : "Get started by uploading an image"}
-            </p>
-            <p className="text-muted-foreground">
-              Supported formats: (.jpeg .jpg .png .webp)
-            </p>
-          </div> */}
+      <Card className={cn("hover:cursor-pointer transition-all  ease-in-out ")}>
+        <CardContent className="flex flex-col h-full items-center justify-center px-2 py-2  text-xs ">
           <Form {...form}>
             <form
               // onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-2"
+              className="w-full"
             >
               <CustomField
                 control={form.control}

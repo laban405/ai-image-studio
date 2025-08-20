@@ -3,7 +3,7 @@ import MobileNav from "@/components/shared/MobileNav";
 import Sidebar from "@/components/shared/Sidebar";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Toaster } from "@/components/ui/toaster";
-import { LayerStore } from "@/lib/layer-store";
+import { ProjectStore } from "@/lib/project-store";
 import { ImageStore } from "@/lib/store";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -15,20 +15,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         activeImage: "",
       }}
     >
-      <LayerStore.Provider
-        initialValue={{
-          layerComparisonMode: false,
-          layers: [
-            {
-              id: crypto.randomUUID(),
-              url: "",
-              height: 0,
-              width: 0,
-              publicId: "",
-            },
-          ],
-        }}
-      >
+      <ProjectStore.Provider initialValue={null}>
         <main className="root">
           <Sidebar />
           <MobileNav />
@@ -43,7 +30,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
           <Toaster />
         </main>
-      </LayerStore.Provider>
+      </ProjectStore.Provider>
     </ImageStore.Provider>
   );
 };

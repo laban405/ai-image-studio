@@ -1,40 +1,44 @@
-"use client"
+"use client";
 
-import { useImageStore } from "@/lib/store"
-import { Button } from "@/components/ui/button"
-import { recolorImage } from "@/server/recolor"
-import { useAction } from "next-safe-action/hooks"
-import { Badge } from "@/components/ui/badge"
+import { useImageStore } from "@/lib/store";
+import { Button } from "@/components/ui/button";
+import { recolorImage } from "@/server/recolor";
+import { useAction } from "next-safe-action/hooks";
+import { Badge } from "@/components/ui/badge";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { cn } from "@/lib/utils"
-import { motion, AnimatePresence } from "framer-motion"
-import { useMemo } from "react"
-import { genRemove } from "@/server/gen-remove"
-import { Eraser } from "lucide-react"
-import { useLayerStore } from "@/lib/layer-store"
+} from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import { useMemo } from "react";
+import { genRemove } from "@/server/gen-remove";
+import { Eraser } from "lucide-react";
+import { useProjectStore } from "@/lib/project-store";
+import { addLayerApi } from "@/lib/actions/layer.actions";
 
 export default function GenRemove() {
-  const tags = useImageStore((state) => state.tags)
-  const setActiveTag = useImageStore((state) => state.setActiveTag)
-  const generating = useImageStore((state) => state.generating)
-  const activeTag = useImageStore((state) => state.activeTag)
-  const activeColor = useImageStore((state) => state.activeColor)
-  const setGenerating = useImageStore((state) => state.setGenerating)
-  const activeLayer = useLayerStore((state) => state.activeLayer)
-  const addLayer = useLayerStore((state) => state.addLayer)
-  const setActiveLayer = useLayerStore((state) => state.setActiveLayer)
+  const project = useProjectStore((state) => state);
+
+  const tags = useImageStore((state) => state.tags);
+  const setActiveTag = useImageStore((state) => state.setActiveTag);
+  const generating = useImageStore((state) => state.generating);
+  const activeTag = useImageStore((state) => state.activeTag);
+  const activeColor = useImageStore((state) => state.activeColor);
+  const setGenerating = useImageStore((state) => state.setGenerating);
+  const activeLayer = useProjectStore((state) => state.activeLayer);
+  const addLayer = useProjectStore((state) => state.addLayer);
+  const setActiveLayer = useProjectStore((state) => state.setActiveLayer);
   return (
     <Popover>
       <PopoverTrigger disabled={!activeLayer?.url} asChild>
         <Button variant="ghost" className="py-8 h-8">
           <span className="flex gap-1 items-center justify-center flex-col text-xs font-medium">
-            <Eraser size={20} />Content Aware 
+            <Eraser size={20} />
+            Content Aware
           </span>
         </Button>
       </PopoverTrigger>
@@ -74,7 +78,7 @@ export default function GenRemove() {
                 value={activeTag}
                 name="tag"
                 onChange={(e) => {
-                  setActiveTag(e.target.value)
+                  setActiveTag(e.target.value);
                 }}
               />
             </div>
@@ -83,29 +87,39 @@ export default function GenRemove() {
         <Button
           className="w-full mt-4"
           disabled={
-            !activeTag || !activeColor || !activeLayer.url || generating
+            !activeTag || !activeColor || !activeLayer?.url || generating
           }
           onClick={async () => {
-            setGenerating(true)
+            setGenerating(true);
             const res = await genRemove({
-              activeImage: activeLayer.url!,
+              activeImage: activeLayer?.url!,
               prompt: activeTag,
-            })
+            });
             if (res?.data?.success) {
-              setGenerating(false)
+              setGenerating(false);
 
-              const newLayerId = crypto.randomUUID()
-              addLayer({
-                id: newLayerId,
+              const newLayer = {
+                projectId: project.id,
+                userId: project.user._id,
+                name: activeLayer?.name!,
+                format: activeLayer?.format!,
+                height: activeLayer?.height!,
+                width: activeLayer?.width!,
                 url: res.data.success,
-                format: activeLayer.format,
-                height: activeLayer.height,
-                width: activeLayer.width,
-                name: activeLayer.name,
-                publicId: activeLayer.publicId,
+                publicId: activeLayer?.publicId!,
                 resourceType: "image",
-              })
-              setActiveLayer(newLayerId)
+              };
+              const addedLayer = await addLayerApi({
+                layer: newLayer,
+                userId: project.user._id,
+                path: "/",
+              });
+
+              addLayer({
+                ...addedLayer,
+              });
+
+              setActiveLayer(addedLayer._id);
             }
           }}
         >
@@ -113,5 +127,5 @@ export default function GenRemove() {
         </Button>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

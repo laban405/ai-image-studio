@@ -7,10 +7,23 @@ import Logo from "../shared/Logo";
 import { auth, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { getUserById } from "@/lib/actions/user.actions";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const Navbar = async () => {
   const { userId } = auth();
-  const user = userId ? await getUserById(userId) : null;
+
+  let user;
+  try {
+    user = userId ? await getUserById(userId) : null;
+
+    if (!user) {
+      console.error(`User with ID ${userId} not found`);
+      redirect("/sign-in");
+    }
+  } catch (err) {
+    console.error("Error fetching user:", err);
+    redirect("/sign-in");
+  }
   return (
     <nav className="fixed z-10 top-6 inset-x-4 h-14 xs:h-16 bg-background/50 backdrop-blur-sm border  max-w-screen-xl mx-auto rounded-full">
       <div className="h-full flex items-center justify-between mx-auto px-4">

@@ -1,31 +1,31 @@
-"use client"
+"use client";
 
-import { Card, CardContent } from "../ui/card"
-import { cn } from "@/lib/utils"
-import { useLayerStore } from "@/lib/layer-store"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "../ui/label"
-import { ImageIcon, VideoIcon } from "lucide-react"
-import { useState } from "react"
-import UploadImage from "./upload-image"
-import UploadVideo from "./upload-video"
+import { Card, CardContent } from "../ui/card";
+import { cn } from "@/lib/utils";
+import { useProjectStore } from "@/lib/project-store";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "../ui/label";
+import { ImageIcon, VideoIcon } from "lucide-react";
+import { useState } from "react";
+import UploadImage from "./upload-image";
+import UploadVideo from "./upload-video";
 
 export default function UploadForm() {
-  const activeLayer = useLayerStore((state) => state.activeLayer)
-  const [selectedType, setSelectedType] = useState("image")
-  const layerComparisonMode = useLayerStore(
+  const activeLayer = useProjectStore((state) => state.activeLayer);
+  const [selectedType, setSelectedType] = useState("image");
+  const layerComparisonMode = useProjectStore(
     (state) => state.layerComparisonMode
-  )
-  if (!activeLayer.url && !layerComparisonMode)
+  );
+  if (!activeLayer?.url && !layerComparisonMode)
     return (
-      <div className="w-full p-24 flex flex-col  justify-center  h-full bg-red-100">
+      <div className="w-full p-24 flex flex-col  justify-center  h-full ">
         {selectedType === "image" ? <UploadImage /> : null}
         {selectedType === "video" ? <UploadVideo /> : null}
 
-        <RadioGroup
+        {/* <RadioGroup
           defaultValue="image"
           onValueChange={(e) => {
-            setSelectedType(e)
+            setSelectedType(e);
           }}
           className="flex items-center justify-center gap-8 py-8"
         >
@@ -75,7 +75,7 @@ export default function UploadForm() {
               size={36}
             />
           </Card>
-        </RadioGroup>
+        </RadioGroup> */}
       </div>
-    )
+    );
 }

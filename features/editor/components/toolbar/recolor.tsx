@@ -1,35 +1,38 @@
-"use client"
+"use client";
 
-import { useImageStore } from "@/lib/store"
-import { Button } from "@/components/ui/button"
-import { recolorImage } from "@/server/recolor"
-import { useAction } from "next-safe-action/hooks"
-import { Badge } from "@/components/ui/badge"
+import { useImageStore } from "@/lib/store";
+import { Button } from "@/components/ui/button";
+import { recolorImage } from "@/server/recolor";
+import { useAction } from "next-safe-action/hooks";
+import { Badge } from "@/components/ui/badge";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { cn } from "@/lib/utils"
-import { motion, AnimatePresence } from "framer-motion"
-import { useMemo } from "react"
-import { Paintbrush } from "lucide-react"
-import { useLayerStore } from "@/lib/layer-store"
+} from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import { useMemo } from "react";
+import { Paintbrush } from "lucide-react";
+import { useProjectStore } from "@/lib/project-store";
+import { addLayerApi } from "@/lib/actions/layer.actions";
 
 export default function AIRecolor() {
-  const tags = useImageStore((state) => state.tags)
-  const setActiveTag = useImageStore((state) => state.setActiveTag)
-  const activeTag = useImageStore((state) => state.activeTag)
-  const setActiveColor = useImageStore((state) => state.setActiveColor)
-  const activeColor = useImageStore((state) => state.activeColor)
-  const setGenerating = useImageStore((state) => state.setGenerating)
-  const activeLayer = useLayerStore((state) => state.activeLayer)
-  const addLayer = useLayerStore((state) => state.addLayer)
-  const layers = useLayerStore((state) => state.layers)
-  const generating = useImageStore((state) => state.generating)
-  const setActiveLayer = useLayerStore((state) => state.setActiveLayer)
+  const project = useProjectStore((state) => state);
+
+  const tags = useImageStore((state) => state.tags);
+  const setActiveTag = useImageStore((state) => state.setActiveTag);
+  const activeTag = useImageStore((state) => state.activeTag);
+  const setActiveColor = useImageStore((state) => state.setActiveColor);
+  const activeColor = useImageStore((state) => state.activeColor);
+  const setGenerating = useImageStore((state) => state.setGenerating);
+  const activeLayer = useProjectStore((state) => state.activeLayer);
+  const addLayer = useProjectStore((state) => state.addLayer);
+  const layers = useProjectStore((state) => state.layers);
+  const generating = useImageStore((state) => state.generating);
+  const setActiveLayer = useProjectStore((state) => state.setActiveLayer);
 
   return (
     <Popover>
@@ -77,7 +80,7 @@ export default function AIRecolor() {
                 value={activeTag}
                 name="tag"
                 onChange={(e) => {
-                  setActiveTag(e.target.value)
+                  setActiveTag(e.target.value);
                 }}
               />
             </div>
@@ -117,27 +120,37 @@ export default function AIRecolor() {
           }
           className="w-full mt-4"
           onClick={async () => {
-            setGenerating(true)
+            setGenerating(true);
             const res = await recolorImage({
               color: `to-color_` + activeColor,
-              activeImage: activeLayer.url!,
+              activeImage: activeLayer?.url!,
               tag: "prompt_" + activeTag,
-            })
+            });
 
             if (res?.data?.success) {
-              const newLayerId = crypto.randomUUID()
-              addLayer({
-                id: newLayerId,
-                name: "recolored" + activeLayer.name,
-                format: activeLayer.format,
-                height: activeLayer.height,
-                width: activeLayer.width,
+              const newLayer = {
+                projectId: project.id,
+                userId: project.user._id,
+                name: "recolored" + activeLayer?.name!,
+                format: activeLayer?.format!,
+                height: activeLayer?.height!,
+                width: activeLayer?.width!,
                 url: res.data.success,
-                publicId: activeLayer.publicId,
+                publicId: activeLayer?.publicId!,
                 resourceType: "image",
-              })
-              setGenerating(false)
-              setActiveLayer(newLayerId)
+              };
+              const addedLayer = await addLayerApi({
+                layer: newLayer,
+                userId: project.user._id,
+                path: "/",
+              });
+
+              addLayer({
+                ...addedLayer,
+              });
+
+              setGenerating(false);
+              setActiveLayer(addedLayer._id);
             }
           }}
         >
@@ -145,5 +158,5 @@ export default function AIRecolor() {
         </Button>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
