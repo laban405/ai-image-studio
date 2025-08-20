@@ -1,6 +1,7 @@
 import { authMiddleware } from "@clerk/nextjs";
  
 export default authMiddleware({
+  debug:true,
   publicRoutes: ['/', '/api/webhooks/clerk', '/api/webhooks/stripe',"/api/webhooks/mpesa/stk-push-callback(.*)"]
 });
  
